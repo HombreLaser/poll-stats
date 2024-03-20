@@ -1,0 +1,76 @@
+@startuml
+skinparam linetype ortho
+
+entity "Form" as form {
+	*id: int
+	--
+	*author_id : FK
+	*name : str
+	' Status: activo o inactivo.
+	*status : enum
+	created_at: date
+	updated_at: date
+}
+
+entity "UserAccount" as user {
+	*id : int
+	--
+	*email : str
+	' Rol: maestro o administrador.
+	*role : str
+	*first_name : str
+	*last_name : str
+	*activated : bool
+	password : str
+	created_at: date
+	updated_at: date
+}
+
+entity "Question" as question {
+	*id : int
+	--
+	*form_id : FK
+	*type : enum
+	*content : str
+	*required : bool
+	*score : float
+	created_at: date
+	updated_at: date
+}
+
+entity "Response" as response {
+	*id : int
+	--
+	*form_id : int
+	*data : json
+	created_at: date
+	updated_at: date
+}
+
+entity "Export" as export {
+	*id : int
+	--
+	*owner_id : FK
+	*type : enum
+	*file : file
+	' Status: en progreso, pendiente, listo, error.
+	*status : enum
+	created_at: date
+	updated_at: date
+}
+
+entity "Invitation" as invitation {
+	*id : int
+	--
+	*user_id : FK
+	*invitation_key : str
+	' Status: usado o pendiente.
+	*status : enum
+}
+
+response }o..|| form
+question }|--|| form
+form }o..|| user
+export }o..|| user
+invitation  ||--o| user
+@enduml
