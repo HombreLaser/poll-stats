@@ -13,7 +13,7 @@ de datos.
 
 En la raíz del proyecto, copia `config.example.toml` y renómbralo a `config.toml`. Deberías ver algo como esto:
 
-```
+```toml
 [database]
 user = 'tu_usuario'
 password = 'tu_contraseña'
