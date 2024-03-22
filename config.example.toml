@@ -1,0 +1,5 @@
+[database]
+user = 'tu_usuario'
+password = 'tu_contraseña'
+
+SECRET_KEY = "texto_muy_largo"
