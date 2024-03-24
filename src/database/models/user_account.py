@@ -30,7 +30,7 @@ class UserAccount(db.Model):
 
     def verify_password(self, guessed_password):
         try:
-            scrypt.decrypt(bytes.fromhex(self._password), guessed_password, maxtime=0.5)
+            scrypt.decrypt(bytes.fromhex(self._password), guessed_password, maxtime=0.8)
             return True
         except scrypt.error:
             return False

@@ -5,7 +5,7 @@ sessions_blueprint = Blueprint('sessions_controller', __name__)
 
 @sessions_blueprint.get('/login')
 def new():
-    return 'GET LOGIN'
+    return render_template('views/sessions/new.jinja')
 
 
 @sessions_blueprint.post('/login')
