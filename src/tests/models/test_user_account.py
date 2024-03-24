@@ -1,4 +1,6 @@
 from src.tests.utils.factories import UserAccountFactory
+from sqlalchemy.exc import IntegrityError
+import pytest
 import factory
 import secrets
 
@@ -24,3 +26,11 @@ def test_user_verify_password(app, db):
 
     assert user.verify_password(new_password) == True
     assert user.verify_password(wrong_password) == False
+
+
+def test_invalid_user_raises_exception(app, db):
+    user = UserAccountFactory(email=None, first_name=None, last_name=None)
+
+    with pytest.raises(IntegrityError):
+        db.session.add(user)
+        db.session.commit()

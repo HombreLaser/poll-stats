@@ -26,11 +26,11 @@ class UserAccount(db.Model):
 
     @password.setter
     def password(self, password):
-        self._password = scrypt.encrypt(current_app.config['SECRET_KEY'], password, maxtime=0.08).hex()
+        self._password = scrypt.encrypt(current_app.config['SECRET_KEY'], password, maxtime=0.5).hex()
 
     def verify_password(self, guessed_password):
         try:
-            scrypt.decrypt(bytes.fromhex(self._password), guessed_password, maxtime=0.08)
+            scrypt.decrypt(bytes.fromhex(self._password), guessed_password, maxtime=0.5)
             return True
         except scrypt.error:
             return False
