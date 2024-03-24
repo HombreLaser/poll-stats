@@ -1,11 +1,12 @@
 from src.tests.utils.factories import UserAccountFactory
 from sqlalchemy.exc import IntegrityError
+from . import TestModelBase
 import pytest
 import factory
 import secrets
 
 
-class TestUserAccount:
+class TestUserAccount(TestModelBase):
     def test_user_creation(app, db):
         user = UserAccountFactory.build()
         user.password = secrets.token_hex(8)
