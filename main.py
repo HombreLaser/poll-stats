@@ -1,4 +1,5 @@
 from flask import Flask
+from src.database import db
 import src.database.models as models
 import tomllib
 import initializer
