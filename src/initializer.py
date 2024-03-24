@@ -4,15 +4,8 @@ import src.database as database
 import src.controllers as app_controllers
 
 
-with open('config.toml', 'rb') as config_file:
-    config = tomllib.load(config_file)
-
-connection_string = (f"mysql+pymysql://{config['database']['user']}:"
-                     f"{config['database']['password']}@localhost/poll_stats")
-
-
 def init_app(app):
-    app.config['SQLALCHEMY_DATABASE_URI'] = connection_string
+    load_config(app)
     database.init_db(app)
     initialize_blueprints(app)
 
@@ -30,3 +23,22 @@ def register_blueprints(controllers: list, app):
         blueprint = getattr(getattr(app_controllers, controller),
                             f"{controller_name}_blueprint")
         app.register_blueprint(blueprint)
+
+
+def load_config(app):
+    with open('config.toml', 'rb') as config_file:
+        config = tomllib.load(config_file)
+        app.config.update(
+            SQLALCHEMY_DATABASE_URI = connection_string(config, app),
+            SECRET_KEY = config['flask']['SECRET_KEY']
+        )
+
+
+def connection_string(config, app):
+    connection = (f"mysql+pymysql://{config['database']['user']}:"
+                  f"{config['database']['password']}@localhost/")
+
+    if app.testing:
+        return connection + 'test_poll_stats'
+    else:
+        return connection + 'poll_stats'
