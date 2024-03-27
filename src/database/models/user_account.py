@@ -10,7 +10,7 @@ class UserAccount(db.Model):
     __tablename__ = 'user_accounts'
 
     id = mapped_column(sqlalchemy.BigInteger, primary_key=True)
-    email: Mapped[str] = mapped_column(sqlalchemy.String(256), nullable=False)
+    email: Mapped[str] = mapped_column(sqlalchemy.String(256), nullable=False, unique=True)
     role = mapped_column(sqlalchemy.String(16), default='administrator')
     first_name: Mapped[str] = mapped_column(sqlalchemy.String(64), nullable=False)
     last_name: Mapped[str] = mapped_column(sqlalchemy.String(64), nullable=False)

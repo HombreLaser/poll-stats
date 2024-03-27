@@ -1,13 +1,18 @@
+from flask_wtf.csrf import CSRFProtect
 import tomllib
 import re
 import src.database as database
 import src.controllers as app_controllers
 
 
+csrf = CSRFProtect()
+
+
 def init_app(app):
     load_config(app)
     database.init_db(app)
     initialize_blueprints(app)
+    csrf.init_app(app)
 
 
 def initialize_blueprints(app):
