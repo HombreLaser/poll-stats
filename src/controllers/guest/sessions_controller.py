@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, session, redirect, url_for
 from sqlalchemy import select
+from src.lib.constraints import redirect_if_logged_in
 from src.services.sessions import Login
 from src.forms import LoginForm
 from src.database import db
@@ -9,6 +10,7 @@ sessions_blueprint = Blueprint('sessions_controller', __name__)
 
 
 @sessions_blueprint.get('/login')
+@redirect_if_logged_in
 def new():
     form = LoginForm()
 
@@ -19,8 +21,8 @@ def new():
 def create():
     form = Login().__call__(LoginForm())
 
-    if form.validate() and not login.form_errors:
-        return redirect(url_for('dashboards_controller.index'))
+    if form.validate() and not form.form_errors:
+        return redirect(url_for('master_dashboards_controller.index'))
     else:
         return render_template('views/sessions/new.jinja', form=form)
 

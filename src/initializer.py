@@ -24,7 +24,7 @@ def initialize_blueprints(app):
 
 def register_blueprints(controllers: list, app):
     for controller in controllers:
-        controller_name = controller.split('_')[0]
+        controller_name = controller.removesuffix('_controller')
         blueprint = getattr(getattr(app_controllers, controller),
                             f"{controller_name}_blueprint")
         app.register_blueprint(blueprint)

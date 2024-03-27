@@ -13,6 +13,7 @@ class Login:
         if user is not None:
             if user.verify_password(self.form.data['password']):
                 session['user_id'] = user.id
+                session['user_role'] = user.role
 
                 return self.form
 
