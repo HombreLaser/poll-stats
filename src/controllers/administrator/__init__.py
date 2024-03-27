@@ -1,0 +1,2 @@
+# Administrator controllers module
+import src.controllers.administrator.administrator_dashboards_controller

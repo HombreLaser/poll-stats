@@ -27,6 +27,5 @@ def redirect_if_logged_in(function):
     return decorated_view
 
 
-
 def session_present():
     return session.get('user_id') is not None and session.get('user_role') is not None
