@@ -33,4 +33,4 @@ def destroy():
         del session['user_id']
         del session['user_role']
 
-    return redirect(url_for('sessions_controller.new'))
+    return redirect(url_for('sessions_controller.new'), code=303)
