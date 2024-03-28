@@ -18,8 +18,9 @@
                 <li><a class="dropdown-item">Settings</a></li>
                 <li><a class="dropdown-item">Activity Log</a></li>
                 <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item">Logout</a></li>
+                <li><a class="dropdown-item delete-button" href="{{ url_for('sessions_controller.destroy') }}">Logout</a></li>
             </ul>
         </li>
     </ul>
+    <script src="{{ url_for('static', filename='js/delete_button.js') }}"></script>
 </nav>
