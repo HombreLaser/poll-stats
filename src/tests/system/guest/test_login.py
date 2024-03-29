@@ -5,6 +5,6 @@ import pytest
 
 @pytest.mark.usefixtures('live_server')
 class TestLogin(TestSystemBase):
-    def test_correct_login(db, driver, live_server):
+    def test_correct_login(app, driver, live_server):
         driver.get(f"http://localhost:8888{url_for('sessions_controller.new')}")
         assert 'Login' in driver.page_source

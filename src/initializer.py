@@ -9,8 +9,9 @@ csrf = CSRFProtect()
 
 
 def init_app(app):
-    load_config(app)
-    database.init_db(app)
+    # load_config(app)
+    # database.init_db(app)
+    app.config['SECRET_KEY'] = 'test'
     initialize_blueprints(app)
     csrf.init_app(app)
 
@@ -19,15 +20,12 @@ def initialize_blueprints(app):
     controller_regex = re.compile('_controller$')
     controllers = [definition for definition in dir(app_controllers)
                    if controller_regex.search(definition) is not None]
-    register_blueprints(controllers, app)
+    register_blueprints(app)
 
 
-def register_blueprints(controllers: list, app):
-    for controller in controllers:
-        controller_name = controller.removesuffix('_controller')
-        blueprint = getattr(getattr(app_controllers, controller),
-                            f"{controller_name}_blueprint")
-        app.register_blueprint(blueprint)
+def register_blueprints(app):
+    from src.controllers.guest.sessions_controller import sessions_blueprint
+    app.register_blueprint(sessions_blueprint)
 
 
 def load_config(app):

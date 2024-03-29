@@ -16,11 +16,3 @@ def app():
     with app.app_context():
         yield app
 
-    clear_data(app)
-
-
-@pytest.fixture()
-def db(app):
-    from src.database import db
-
-    return db
