@@ -1,6 +1,6 @@
 # Crear modelo Question
 
-## Responsable:
+## Responsable: Luis Sebastián
 
 ***HACER DESPUÉS DE DEFINIR EL MODELO FORM***
 

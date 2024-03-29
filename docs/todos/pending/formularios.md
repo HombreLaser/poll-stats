@@ -14,3 +14,4 @@ su complejidad.
 * Las preguntas creadas tendrán un peso o puntaje (TODO: qué intervalos tomar en cuenta).
 
 Ticket relacionado: [creación de respuestas](./creacion_respuestas.md)
+Ticket relacionado: [creación de modelo de formulario](./modelo_form.md)

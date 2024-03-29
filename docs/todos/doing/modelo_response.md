@@ -1,6 +1,6 @@
 # Crear modelo Response
 
-## Responsable:
+## Responsable: Luis Sebastián
 
 * Definir un modelo en src.database.models que corresponda a la respuesta.
 * Crear una migración.

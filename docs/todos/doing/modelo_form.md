@@ -1,6 +1,6 @@
 # Crear modelo Form
 
-## Responsable:
+## Responsable: Luis Sebastián
 
 * Definir un modelo en src.database.models que corresponda al formulario.
 * Crear una migración.
