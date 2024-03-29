@@ -5,7 +5,7 @@ from src.database import clear_data
 import src.initializer as initializer
 
 
-@pytest.fixture()
+@pytest.fixture(scope='session')
 def app():
     app = Flask(__name__)
     app.config['TESTING'] = True
