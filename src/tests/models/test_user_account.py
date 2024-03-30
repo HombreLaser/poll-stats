@@ -36,3 +36,5 @@ class TestUserAccount(TestModelBase):
         with pytest.raises(IntegrityError):
             db.session.add(user)
             db.session.commit()
+        
+        db.session.rollback()
