@@ -11096,6 +11096,11 @@ body {
   padding: 0;
 }
 
+.table-wrapper {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 .datatable-top > nav:first-child,
 .datatable-top > div:first-child,
 .datatable-bottom > nav:first-child,

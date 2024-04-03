@@ -1,0 +1,46 @@
+{% extends 'views/master/users/base.jinja' %}
+
+{% block content %}
+    <div class="container-fluid px-4 table-wrapper">
+        <h1 class="mt-4">
+            Usuarios
+        </h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">Usuarios</li>
+        </ol>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                DataTable Example
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Correo Electrónico</th>
+                            <th>Nombre(s)</th>
+                            <th>Apellido(s)</th>
+                            <th>Activado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.first_name }}</td>
+                                <td>{{ user.last_name }}</td>
+                                <td>
+                                    {% if user.activated %}
+                                        Activado
+                                    {% else %}
+                                        Pendiente de activación
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
