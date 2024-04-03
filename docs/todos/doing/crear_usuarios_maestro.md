@@ -1,6 +1,6 @@
 # El usuario maestro puede crear usuarios (normales).
 
-## Responsable:
+## Responsable: Luis Sebastian
 
 El usuario maestro puede registrar nuevos usuarios. (Revisar [este ticket](./registro_usuarios.md) para la
 lógica de las invitaciones y la activación de usuarios). Requiere:
