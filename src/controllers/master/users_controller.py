@@ -5,6 +5,7 @@ from src.queries.master import UsersQuery
 
 
 users_blueprint = Blueprint('users_controller', __name__)
+templates_context = 'views/master/users'
 
 
 @users_blueprint.get('/master/users')
@@ -12,4 +13,4 @@ users_blueprint = Blueprint('users_controller', __name__)
 def index():
     users = UsersQuery(request.args).get_administrators()
 
-    return render_template('views/master/users/index.jinja', users=users)
+    return render_template(f"{templates_context}/index.jinja", users=users, context=templates_context)

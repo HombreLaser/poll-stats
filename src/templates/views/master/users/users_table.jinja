@@ -1,0 +1,15 @@
+
+{% for user in records %}
+    <tr>
+        <td>{{ user.email }}</td>
+        <td>{{ user.first_name }}</td>
+        <td>{{ user.last_name }}</td>
+        <td>
+            {% if user.activated %}
+                Activado
+            {% else %}
+                Pendiente de activación
+            {% endif %}
+        </td>
+    </tr>
+{% endfor %}

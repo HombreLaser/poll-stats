@@ -1,31 +1,24 @@
-{% macro render_table(table_title, records) %}
-    <div class="card-header">
-        <i class="fas fa-table me-1"></i>
-        {{ table_title }}
+{% macro render_table(table_title, records, table_body) %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            {{ table_title }}
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        {% for header in varargs %}
+                            <th>{{ header }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% with records=records %}
+                        {% include table_body %}
+                    {% endwith %}
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="card-body">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    {% for header in varargs %}
-                        <th>{{ header }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                {%  %}
-                <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
-                    <td>61</td>
-                </tr>
-                <tr>
-                    <td>Garrett Winters</td>
-                    <td>Accountant</td>
-                    <td>Tokyo</td>
-                    <td>63</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+{% endmacro %}
