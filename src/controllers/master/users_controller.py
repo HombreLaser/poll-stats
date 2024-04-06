@@ -13,4 +13,4 @@ templates_context = 'views/master/users'
 def index():
     users = UsersQuery(request.args).get_administrators()
 
-    return render_template(f"{templates_context}/index.jinja", users=users, context=templates_context)
+    return render_template(f"{templates_context}/index.jinja", users=users)
