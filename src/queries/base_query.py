@@ -55,17 +55,15 @@ class BaseQuery:
         page = self.params.get('page')
         per_page = self.params.get('per_page')
 
-        if page is not None:
-            try:
-                page = int(page)
-            except (ValueError, TypeError):
-                page = None
+        try:
+            page = int(page)
+        except (ValueError, TypeError):
+            page = None
 
-        if per_page is not None:
-            try:
-                per_page = int(per_page)
-            except (ValueError, TypeError):
-                per_page = None
+        try:
+            per_page = int(per_page)
+        except (ValueError, TypeError):
+            per_page = None
 
         return { 
             'page': page,
