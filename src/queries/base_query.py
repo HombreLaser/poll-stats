@@ -8,13 +8,26 @@ class BaseQuery:
         self.session = db.session
         self.params = params
 
-    def _search(self):
+    def search(self):
         search = self._perform_search()
 
         if search is not None:
             self.scope = search
 
         return self
+
+    def order_by_param(self):
+        attribute = self._call_model_attribute(self.params.get('order_by'))
+        ordered_attribute = self._order(attribute)
+
+        if attribute is not None:
+            self.scope = self.scope.order_by(ordered_attribute)
+
+        return self
+
+    def paginate(self):
+        return db.paginate(self.scope, **self._pagination_params())
+
 
     def _perform_search(self):
         search_by = self.params.get('search_by')
@@ -24,15 +37,6 @@ class BaseQuery:
            return self.scope.filter(getattr(self.model, search_by).like(f"%{search_term}%"))
         except (AttributeError, TypeError):
             return None
-
-    def _order_by_param(self):
-        attribute = self._call_model_attribute(self.params.get('order_by'))
-        ordered_attribute = self._order(attribute)
-
-        if attribute is not None:
-            self.scope = self.scope.order_by(ordered_attribute)
-
-        return self
 
     def _order(self, attribute):
         ordering_method = self.params.get('order')
@@ -47,9 +51,6 @@ class BaseQuery:
                 return getattr(attribute, 'asc')()  
         
         return getattr(attribute, 'asc')()
-
-    def _paginate(self):
-        return db.paginate(self.scope, **self._pagination_params())
 
     def _pagination_params(self):
         page = self.params.get('page')
