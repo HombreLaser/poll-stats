@@ -9,7 +9,9 @@
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item active">Usuarios</li>
         </ol>
-        {{ table.render_table('Usuarios registrados', users, 'views/master/users/users_table.jinja', 
-                                                             'Correo electrónico', 'Nombre(s)', 'Apellido(s)', 'Estado') }}
+        {{ table.render_table('Usuarios registrados', users, 'users_controller.index',
+                              'views/master/users/users_table.jinja',
+                              { 'email': 'Correo electrónico', 'first_name': 'Nombre(s)', 'last_name': 'Apellido(s)' },
+                              'Correo electrónico', 'Nombre(s)', 'Apellido(s)', 'Estado') }}
     </div>
 {% endblock %}

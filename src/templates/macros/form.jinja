@@ -11,3 +11,55 @@
     {% endif %}
     {{ field.label }}
 {% endmacro %}
+
+{% macro search_form(endpoint, order_options) %}
+    <form action="{{ url_for(endpoint) }}" method="get">
+        <div class="container">
+            <div class="row justify-content-sm-end">
+                <div class="col-sm-2 mb-3">
+                    <label for="per-page-select">Elementos por página</label>
+                    <select name="per_page" class="form-select form-select-sm mb-3" id="per-page-select" aria-label="Per page elements select">
+                        <option value="20" selected>20</option>
+                        <option value="15">15</option>
+                        <option value="10">10</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+
+                <div class="col-sm-2 mb-3">
+                    <label for="order-by-select">Ordenar por</label>
+                    <select name="order_by" class="form-select form-select-sm mb-3" id="per-page-select" aria-label="Order by select">
+                        {% for value, option in order_options.items() %}
+                            <option value="{{ value }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-sm-2 mb-3">
+                    <label for="order-by-select">En orden</label>
+                    <select name="order" class="form-select form-select-sm mb-3" id="per-page-select" aria-label="Order by select">
+                        <option value="asc">Ascendente</option>
+                        <option value="desc">Descendente</option>
+                    </select>
+                </div>
+
+                <div class="col-sm-2 mb-3">
+                    <input name="search" type="text" class="form-control" placeholder="Buscar" aria-label="Search">
+                </div>
+
+                <div class="col-sm-2 mb-3">
+                    <select name="search_by" class="form-select form-select-sm select-btn-primary" id="per-page-select" aria-label="Search by select">
+                        <option value="">Buscar por...</option>
+                        {% for value, option in order_options.items() %}
+                            <option value="{{ value }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-sm-1 justify-content-md-center">
+                    <input type="submit" class="btn btn-sm btn-success" value="Buscar" />
+                </div>
+            </div>
+        </div>
+    </form>
+{% endmacro %}
