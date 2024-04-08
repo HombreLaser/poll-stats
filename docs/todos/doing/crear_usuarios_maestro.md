@@ -14,6 +14,6 @@ lógica de las invitaciones y la activación de usuarios). Requiere:
 TAREAS
 
 - [x] Crear vista index de usuarios con su tabla.
-- [ ] Añadir paginación a la tabla de usuarios.
-- [ ] Añadir búsqueda de usuarios.
+- [x] Añadir paginación a la tabla de usuarios.
+- [x] Añadir búsqueda de usuarios.
 - [ ] Añadir formulario de registro de usuarios.
