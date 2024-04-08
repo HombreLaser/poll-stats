@@ -12,6 +12,12 @@
     {{ field.label }}
 {% endmacro %}
 
+{% macro submit_button(value) %}
+    <div class="d-flex justify-content-end mt-4 mb-0">
+        <input id="login_button" type="submit" class="btn btn-primary" value="{{ value }}" />
+    </div>
+{% endmacro %}
+
 {% macro search_form(endpoint, order_options) %}
     <form action="{{ url_for(endpoint) }}" method="get">
         <div class="d-flex flex-row align-items-center h-100">
