@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request
 from src.queries.master import UsersQuery
 from src.lib.constraints import role_constraint
 from src.queries.master import UsersQuery
+from src.forms import UserAccountForm
 
 
 users_blueprint = Blueprint('users_controller', __name__)
@@ -14,3 +15,17 @@ def index():
     users = UsersQuery(request.args).get_administrators()
 
     return render_template(f"{templates_context}/index.jinja", users=users)
+
+
+@users_blueprint.get('/master/users/new')
+@role_constraint('master')
+def new():
+    form = UserAccountForm()
+
+    return render_template(f"{templates_context}/new.jinja", form=form)
+
+
+@users_blueprint.post('/master/users')
+@role_constraint('master')
+def create():
+    return 'Created!'

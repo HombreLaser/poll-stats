@@ -1,5 +1,5 @@
-from .base_form import BaseForm
-from .widgets import TextInputWidget, PasswordInputWidget, CheckboxInputWidget, CheckboxLabel
+from src.forms.base_form import BaseForm
+from src.forms.widgets import TextInputWidget, PasswordInputWidget, CheckboxInputWidget, CheckboxLabel
 import wtforms.validators as validators
 import wtforms
 

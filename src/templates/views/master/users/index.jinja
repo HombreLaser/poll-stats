@@ -9,6 +9,7 @@
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item active">Usuarios</li>
         </ol>
+        <a href="{{ url_for('users_controller.new') }}" class="btn btn-success">Registrar</a>
         {{ table.render_table('Usuarios registrados', users, 'users_controller.index',
                               'views/master/users/users_table.jinja',
                               { 'email': 'Correo electrónico', 'first_name': 'Nombre(s)', 'last_name': 'Apellido(s)' },

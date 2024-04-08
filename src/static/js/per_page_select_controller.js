@@ -3,7 +3,6 @@ class PerPageSelectController {
         this.query_params = this.getQueryParams();
         this.select_button = document.getElementById("per-page-select");
         this.setSelectedValue();
-        console.log('Hello!')
     }
 
     setSelectedValue() {
