@@ -7,13 +7,19 @@
                 </li>
             {% else %}
             <li class="page-item">
-                <a class="page-link" href="{{ url_for(endpoint, page=pagination.prev().page, per_page=pagination.per_page) }}">Anterior</a>
+                <a class="page-link" href="{{ url_for(endpoint, page=pagination.prev().page, per_page=pagination.per_page,
+                                                                order_by=request.args.get('order_by'),
+                                                                order=request.args.get('order')) }}">
+                    Anterior
+                </a>
             </li>
             {% endif %}
             {% for page in pagination.iter_pages() %}
                 {% if page %}
                     <li class="page-item">
-                        <a class="page-link" href="{{ url_for(endpoint, page=page, per_page=pagination.per_page) }}">{{ page }}</a>
+                        <a class="page-link" href="{{ url_for(endpoint, page=page, per_page=pagination.per_page,
+                                                                        order_by=request.args.get('order_by'),
+                                                                        order=request.args.get('order')) }}">{{ page }}</a>
                     </li>
                 {% else %}
                     <li class="page-item">
@@ -23,7 +29,11 @@
             {% endfor %}
             {% if pagination.has_next %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for(endpoint, page=pagination.next_num, per_page=pagination.per_page) }}">Siguiente</a>
+                    <a class="page-link" href="{{ url_for(endpoint, page=pagination.next_num, per_page=pagination.per_page,
+                                                                    order_by=request.args.get('order_by'),
+                                                                    order=request.args.get('order')) }}">
+                            Siguiente
+                    </a>
                 </li>
             {% endif %}
         </ul>
