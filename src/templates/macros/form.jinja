@@ -1,7 +1,7 @@
 {% macro render_field(field) %}    
     {% if field.errors %}
         {{ field(class_='is-invalid', required=False) }}
-        <ul class="errors">
+        <ul class="text-danger mt-2">
             {% for error in field.errors %}
                 <li>{{ error }}</li>
             {% endfor %}

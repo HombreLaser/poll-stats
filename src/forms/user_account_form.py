@@ -10,5 +10,5 @@ class UserAccountForm(BaseForm):
                                                       widget=TextInputWidget())
     first_name = wtforms.StringField('Nombre(s)', validators=[validators.InputRequired(), validators.Length(max=64)],
                                                   widget=TextInputWidget())
-    last_name = wtforms.StringField('Apellido(s)', validators=[validators.InputRequired(), validators.Length(64)],
+    last_name = wtforms.StringField('Apellido(s)', validators=[validators.InputRequired(), validators.Length(max=64)],
                                                    widget=TextInputWidget())
