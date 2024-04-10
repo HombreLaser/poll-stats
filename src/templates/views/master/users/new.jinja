@@ -11,18 +11,18 @@
         </ol>
 
         <div class="row justify-content-start w-50">
-            <form action="{{ url_for('users_controller.create') }}" method="post">
+            <form action="{{ url_for('users_controller.create') }}" method="post" novalidate>
                 {{ form.csrf_token }}
                 
-                <div class="mb-3">
+                <div class="form-floating mb-3">
                     {{ form_renderer.render_field(form.email) }}
                 </div>
 
-                <div class="mb-3">
+                <div class="form-floating mb-3">
                     {{ form_renderer.render_field(form.first_name) }}
                 </div>
 
-                <div class="mb-3">
+                <div class="form-floating mb-3">
                     {{ form_renderer.render_field(form.last_name) }}
                 </div>
 
