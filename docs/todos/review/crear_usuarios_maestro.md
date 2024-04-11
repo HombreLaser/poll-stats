@@ -16,4 +16,4 @@ TAREAS
 - [x] Crear vista index de usuarios con su tabla.
 - [x] Añadir paginación a la tabla de usuarios.
 - [x] Añadir búsqueda de usuarios.
-- [ ] Añadir formulario de registro de usuarios.
+- [x] Añadir formulario de registro de usuarios.
