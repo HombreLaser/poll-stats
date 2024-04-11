@@ -1,0 +1,15 @@
+{% extends 'views/administrator/forms/base.jinja' %}
+{% import 'macros/form.jinja' as form %}
+{% import 'macros/breadcrumb.jinja' as breadcrumb %}
+
+
+{% block content %}
+    <div class="container-fluid px-4">
+        <h1 class="mt-4"> Nuevo formulario </h1>
+        {{ breadcrumb.render('Nuevo formulario', { url_for('administrator_forms_controller.index'): 'Formularios' }) }}
+
+        <div class="row justify-content-start w-50">
+            Ejemplo
+        </div>
+    </div>
+{% endblock %}

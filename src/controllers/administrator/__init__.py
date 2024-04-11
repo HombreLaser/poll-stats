@@ -1,2 +1,3 @@
 # Administrator controllers module
 import src.controllers.administrator.administrator_dashboards_controller
+import src.controllers.administrator.administrator_forms_controller

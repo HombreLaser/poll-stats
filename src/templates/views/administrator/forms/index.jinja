@@ -1,0 +1,18 @@
+{% extends 'views/administrator/forms/base.jinja' %}
+{% import 'macros/table.jinja' as table %}
+{% import 'macros/breadcrumb.jinja' as breadcrumb %}
+
+{% block content %}
+     <div class="container-fluid px-4 table-wrapper">
+        <h1 class="mt-4">
+            Formularios
+        </h1>
+        {{ breadcrumb.render('Formularios', {}) }}
+
+        <a href="{{ url_for('administrator_forms_controller.new') }}" class="btn btn-success">Registrar</a>
+        {{ table.render_table('Formularios registrados', forms, 'administrator_forms_controller.index',
+                              'views/administrator/forms/forms_table.jinja',
+                              { 'name': 'Nombre', 'created_at': 'Fecha de creación' },
+                              'Creado', 'Nombre', 'Estado', '') }}
+    </div>
+{% endblock %}

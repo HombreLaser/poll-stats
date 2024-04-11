@@ -1,14 +1,14 @@
 {% extends 'views/master/users/base.jinja' %}
 {% import 'macros/table.jinja' as table %}
+{% import 'macros/breadcrumb.jinja' as breadcrumb %}
 
 {% block content %}
     <div class="container-fluid px-4 table-wrapper">
         <h1 class="mt-4">
             Usuarios
         </h1>
-        <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item active">Usuarios</li>
-        </ol>
+        {{ breadcrumb.render('Usuarios', {}) }}
+
         <a href="{{ url_for('users_controller.new') }}" class="btn btn-success">Registrar</a>
         {{ table.render_table('Usuarios registrados', users, 'users_controller.index',
                               'views/master/users/users_table.jinja',

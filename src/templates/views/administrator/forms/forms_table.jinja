@@ -1,0 +1,13 @@
+{% for forms in page %}
+    <tr>
+        <td>
+            {{ form.created_at }}
+        </td>
+        <td>
+            {{ form.name }}
+        </td>
+        <td>
+            {{ form.status }}
+        </td>
+    </tr>
+{% endfor %}

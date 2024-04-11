@@ -1,0 +1,10 @@
+{% macro render(current_page, routes) %}
+    <ol class="breadcrumb mb-4">
+        
+        {% for url, text in routes.items() %}
+            <li class="breadcrumb-item"><a href="{{ url }}" >{{ text }}</a></li>
+        {% endfor %}
+
+        <li class="breadcrumb-item active">{{ current_page  }}</li>
+    </ol>
+{% endmacro %}
