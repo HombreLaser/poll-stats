@@ -14,7 +14,7 @@ sessions_blueprint = Blueprint('sessions_controller', __name__)
 def new():
     form = LoginForm()
 
-    return render_template('views/sessions/new.jinja', form=form)
+    return render_template('views/guest/sessions/new.jinja', form=form)
 
 
 @sessions_blueprint.post('/login')
@@ -24,7 +24,7 @@ def create():
     if form.validate() and not form.form_errors:
         return redirect(url_for(f"{session.get('user_role')}_dashboards_controller.index"))
     else:
-        return render_template('views/sessions/new.jinja', form=form)
+        return render_template('views/guest/sessions/new.jinja', form=form)
 
 
 @sessions_blueprint.delete('/logout')

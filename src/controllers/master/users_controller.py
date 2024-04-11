@@ -1,8 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from src.queries.master import UsersQuery
+from src.queries.shared import UsersQuery
 from src.lib.constraints import role_constraint
-from src.queries.master import UsersQuery
-from src.services.master import create_user
+from src.services.shared import create_user
 from src.forms import UserAccountForm
 
 

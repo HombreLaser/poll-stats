@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_wtf.csrf import CSRFProtect
+import sqlalchemy
 import tomllib
 import re
 import src.database as database
@@ -41,7 +42,9 @@ def load_config(app):
         config = tomllib.load(config_file)
         app.config.update(
             SQLALCHEMY_DATABASE_URI = connection_string(config, app),
-            SECRET_KEY = config['flask']['SECRET_KEY']
+            SECRET_KEY = config['flask']['SECRET_KEY'],
+            APPLICATION_ROOT = config['flask']['APPLICATION_ROOT'],
+            SESSION_COOKIE_PATH = '/'
         )
 
 
@@ -62,5 +65,6 @@ app = create_app()
 def shell():
     return {
         "models": models,
-        "db": database.db
+        "db": database.db,
+        "sa": sqlalchemy
     }

@@ -5,6 +5,11 @@ from src.database.models import UserAccount
 from src.forms import LoginForm
 
 
+def set_session(user):
+    session['user_id'] = user.id
+    session['user_role'] = user.role
+
+
 class Login:
     def __call__(self, form: LoginForm):
         self.form = form
@@ -12,8 +17,7 @@ class Login:
 
         if user is not None:
             if user.verify_password(self.form.data['password']):
-                session['user_id'] = user.id
-                session['user_role'] = user.role
+                set_session(user)
 
                 return self.form
 
@@ -25,7 +29,4 @@ class Login:
         return sql.select(UserAccount).filter_by(email=self.form.data['email'])
 
     def _find_user(self):
-        try:
-            return db.session.execute(self._sql_statement()).scalars().one()
-        except sql.exc.NoResultFound:
-            return None
+        return db.session.execute(self._sql_statement()).scalar()
