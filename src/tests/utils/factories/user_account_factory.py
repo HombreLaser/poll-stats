@@ -1,12 +1,11 @@
 from .base_factory import BaseFactory
 from src.database.models import UserAccount
 from src.database import db
-import secrets
 import factory
 
 
 class UserAccountFactory(BaseFactory):
-    class Meta():
+    class Meta:
         sqlalchemy_session = db.session
         model = UserAccount
 

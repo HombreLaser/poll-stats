@@ -1,8 +1,9 @@
 import sqlalchemy
 import scrypt
+import typing
 from flask import current_app
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.orm import mapped_column, Mapped
+from sqlalchemy.orm import mapped_column, Mapped, relationship
 from src.database import db
 
 
@@ -16,7 +17,8 @@ class UserAccount(db.Model):
     last_name: Mapped[str] = mapped_column(sqlalchemy.String(64), nullable=False)
     activated: Mapped[str] = mapped_column(sqlalchemy.Boolean, default=False)
     # Nullable porque será definido por el usuario cuando acceda a la invitación.
-    _password = mapped_column('password', sqlalchemy.String(512), nullable=True) 
+    _password = mapped_column('password', sqlalchemy.String(512), nullable=True)
+    forms = relationship('Form', back_populates='author')
     created_at = mapped_column(sqlalchemy.DateTime)
     updated_at = mapped_column(sqlalchemy.DateTime)
 

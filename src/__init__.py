@@ -62,5 +62,5 @@ app = create_app()
 def shell():
     return {
         "models": models,
-        "db": db
+        "db": database.db
     }
