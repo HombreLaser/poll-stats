@@ -8,8 +8,19 @@
         <h1 class="mt-4"> Nuevo formulario </h1>
         {{ breadcrumb.render('Nuevo formulario', { url_for('administrator_forms_controller.index'): 'Formularios' }) }}
 
-        <div class="row justify-content-start w-50">
-            Ejemplo
+        <div id="form-container" class="row justify-content-start w-50">
+            <form id="form-registration" action="">
+                <button id="new-field-button" class="btn btn-primary">
+                    <i class="bi bi-plus" style="font-size: 1.2rem"></i>
+                    Agregar pregunta
+                </button>
+            </form>
         </div>
     </div>
+
+    <script type="module">
+        import { main } from "{{ url_for('static', filename='js/form_registration/main.js', _external=True) }}";
+
+        main("{{ url_for('fields_controller.show', _external=True) }}");
+    </script>
 {% endblock %}
