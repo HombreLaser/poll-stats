@@ -1,2 +1,11 @@
-{{ form.content(class_='content-field') }}
-{{ form.content.label }}
+<div class="open">
+    <div class="form-floating mb-3">
+        {{ form.content(class_='content-field') }}
+        {{ form.content.label }}
+    </div>
+
+    <div class="form-floating mb-3">
+        {{ form.field_type(class_='form-select') }}
+        {{ form.field_type.label }}
+    </div>
+</div>

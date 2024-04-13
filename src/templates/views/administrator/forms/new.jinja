@@ -21,6 +21,6 @@
     <script type="module">
         import { main } from "{{ url_for('static', filename='js/form_registration/main.js', _external=True) }}";
 
-        main("{{ url_for('fields_controller.show', _external=True) }}");
+        main("{{ url_for('fields_controller.index', _external=True) }}");
     </script>
 {% endblock %}
