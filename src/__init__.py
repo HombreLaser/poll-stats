@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect, url_for
 from flask_wtf.csrf import CSRFProtect
 import sqlalchemy
 import tomllib
@@ -59,6 +59,11 @@ def connection_string(config, app):
 
 
 app = create_app()
+
+
+@app.get('/')
+def index():
+    return redirect(url_for('sessions_controller.new'))
 
 
 @app.shell_context_processor
