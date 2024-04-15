@@ -36,6 +36,6 @@ class CheckboxInputWidget(AttrSetter, wtforms_widgets.CheckboxInput):
     
 class VariableIdSelectWidget(wtforms_widgets.Select):
     def __call__(self, field, **kwargs):
-        field.id = secrets.token_hex(4)
+        field.id = f"a{secrets.token_hex(4)}"
 
         return super().__call__(field, **kwargs)

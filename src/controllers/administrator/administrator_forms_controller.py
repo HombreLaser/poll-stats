@@ -20,3 +20,9 @@ def index():
 @role_constraint('administrator')
 def new():
     return render_template(f"{templates_context}/new.jinja")
+
+
+@administrator_forms_blueprint.post('/administrator/forms')
+@role_constraint('administrator')
+def create():
+    return 'Created!'

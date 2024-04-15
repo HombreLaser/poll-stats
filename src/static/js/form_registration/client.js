@@ -1,3 +1,6 @@
+import { FormParser } from "./form_parser.js";
+
+
 export class Client {
     constructor(route) {
         this.route = route;
@@ -10,6 +13,13 @@ export class Client {
 
     fromResponse(body, field_type) {
         return this.htmlFromResponse(body).querySelector(`.${field_type}`);
+    }
+
+    submit(submitted_form) {
+        const form = new FormData(submitted_form);
+        const form_parser = new FormParser(form);
+        form_parser.parse();
+        console.log("Submitted?")
     }
 
     async get(field_type) {

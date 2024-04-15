@@ -9,11 +9,14 @@
         {{ breadcrumb.render('Nuevo formulario', { url_for('administrator_forms_controller.index'): 'Formularios' }) }}
 
         <div id="form-container" class="row justify-content-start w-50">
-            <form id="form-registration" action="">
+            <form id="form-registration" action="{{ url_for('administrator_forms_controller.create') }}"
+                                         method="POST">
                 <button id="new-field-button" class="btn btn-primary">
-                    <i class="bi bi-plus" style="font-size: 1.2rem"></i>
+                    <i class="bi bi-plus" style="font-size: 1rem"></i>
                     Agregar pregunta
                 </button>
+
+                <input type="submit" id="submit-button" class="btn btn-success ml-6" value="Enviar"/>
             </form>
         </div>
     </div>
