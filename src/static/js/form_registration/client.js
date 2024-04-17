@@ -23,7 +23,8 @@ export class Client {
 
         await fetch(submitted_form.action, {
             headers: {
-                "X-CSRF-Token": token
+                "X-CSRF-Token": token,
+                "Content-Type": "application/json"
             },
             method: "POST",
             body: JSON.stringify(entries),

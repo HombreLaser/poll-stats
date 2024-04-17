@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from src.lib.constraints import role_constraint
+from src.forms import CustomForm
 from src.queries.shared import FormsQuery
 
 
@@ -19,7 +20,9 @@ def index():
 @administrator_forms_blueprint.get('/administrator/forms/new')
 @role_constraint('administrator')
 def new():
-    return render_template(f"{templates_context}/new.jinja")
+    form = CustomForm()
+
+    return render_template(f"{templates_context}/new.jinja", form=form)
 
 
 @administrator_forms_blueprint.post('/administrator/forms')

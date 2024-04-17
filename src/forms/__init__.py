@@ -5,3 +5,4 @@ from src.forms.user_account_form import UserAccountForm
 from src.forms.registration_form import RegistrationForm
 from src.forms.question_form import QuestionForm
 from src.forms.option_form import OptionForm
+from src.forms.custom_form import CustomForm

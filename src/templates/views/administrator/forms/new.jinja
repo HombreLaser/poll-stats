@@ -11,6 +11,9 @@
         <div id="form-container" class="row justify-content-start w-50">
             <form id="form-registration" action="{{ url_for('administrator_forms_controller.create') }}"
                                          method="POST">
+
+                {{ form.render_field(form.name) }}
+
                 <button id="new-field-button" class="btn btn-primary">
                     <i class="bi bi-plus" style="font-size: 1rem"></i>
                     Agregar pregunta
