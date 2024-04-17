@@ -1,3 +1,5 @@
+{% import 'macros/buttons.jinja' as buttons %}
+
 <div class="open">
     <div class="form-floating mb-3">
         {{ form.content(class_='content-field') }}
@@ -7,5 +9,9 @@
     <div class="form-floating mb-3">
         {{ form.field_type(class_='form-select') }}
         {{ form.field_type.label }}
+    </div>
+
+    <div class="mb-3">
+        {{ buttons.delete_button('Borrar pregunta', button_id) }}
     </div>
 </div>

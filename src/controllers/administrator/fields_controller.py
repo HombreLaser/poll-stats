@@ -22,4 +22,4 @@ def index():
 def option():
     form = OptionForm()
 
-    return render_template(f"{templates_context}/option.jinja", form=form)
+    return render_template(f"{templates_context}/option.jinja", form=form, button_id=secrets.token_hex(4))

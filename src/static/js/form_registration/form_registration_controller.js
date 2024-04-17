@@ -3,8 +3,8 @@ import { Renderer } from "./renderer.js";
 
 
 export class FormRegistrationController {
-  constructor(route) {
-    this.client = new Client(route);
+  constructor(route, token) {
+    this.client = new Client(route, token);
     this.form = document.getElementById("form-registration");
     this.field_button = document.getElementById("new-field-button");
     this.renderer = new Renderer(this.client, this.field_button, this.form);
@@ -22,8 +22,8 @@ export class FormRegistrationController {
     this.form.addEventListener("submit", this.submit.bind(this));
   }
 
-  submit(event) {
+  async submit(event) {
     event.preventDefault();
-    this.client.submit(event.target);
+    await this.client.submit(event.target);
   }
 }

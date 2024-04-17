@@ -16,6 +16,13 @@ export class Renderer {
     button.removeEventListener(event, func, true);
   }
 
+  enableButton(button, event, func) {
+    button.classList.remove("btn-secondary");
+    button.classList.add("btn-primary");
+    button.removeAttribute("disabled");
+    button.addEventListener(event, func);
+  }
+
   addOption(event) {
     event.preventDefault();
     this.options_counter += 1;
@@ -25,8 +32,10 @@ export class Renderer {
                                              .querySelector(".options-container");
 
     this.client.getOption().then((option) => {
+      const new_option = option.querySelector(".options");
       this.setOptionFieldNames(option);
-      options_container.appendChild(option.querySelector(".options"));
+      options_container.appendChild(new_option);
+      this.listenForOptionDeletion(options_container, new_option, new_option_button);
     });
 
     if(options_container.children.length >= 3) {
@@ -49,6 +58,7 @@ export class Renderer {
       current_field_container.replaceWith(field);
       field.querySelector(".form-select").selectedIndex = selected_index;
       this.listenForFieldTypeSelection(field);
+      this.listenForFieldDeletion(field);
 
       if(selected_value == "selection") {
         this.addOption = this.addOption.bind(this);
@@ -66,7 +76,27 @@ export class Renderer {
       this.setFieldNames(field);
       this.form.insertBefore(field, this.field_button);
       this.listenForFieldTypeSelection(field);
+      this.listenForFieldDeletion(field);
     });
+  }
+
+  listenForFieldDeletion(field) {
+    field.getElementsByClassName('btn btn-danger remove-question')[0]
+         .addEventListener("click", (event) => {
+           event.preventDefault();
+           field.remove();
+         });
+  }
+
+  listenForOptionDeletion(options_container, option, add_option_button) {
+    option.getElementsByClassName("btn btn-danger remove-question")[0]
+          .addEventListener("click", (event) => {
+            event.preventDefault();
+            option.remove();
+            
+            if(options_container.children.length <= 3)
+              this.enableButton(add_option_button, "click", this.addOption);
+          });
   }
 
   listenForFieldTypeSelection(field) {

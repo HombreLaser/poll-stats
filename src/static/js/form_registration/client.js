@@ -2,8 +2,9 @@ import { FormParser } from "./form_parser.js";
 
 
 export class Client {
-    constructor(route) {
+    constructor(route, token) {
         this.route = route;
+        this.token = token;
         this.parser = new DOMParser();
     }
 
@@ -15,11 +16,24 @@ export class Client {
         return this.htmlFromResponse(body).querySelector(`.${field_type}`);
     }
 
-    submit(submitted_form) {
+    async submit(submitted_form) {
         const form = new FormData(submitted_form);
         const form_parser = new FormParser(form);
-        form_parser.parse();
-        console.log("Submitted?")
+        const entries = form_parser.parse();
+
+        await fetch(submitted_form.action, {
+            headers: {
+                "X-CSRF-Token": token
+            },
+            method: "POST",
+            body: JSON.stringify(entries),
+            mode: "same-origin",
+            credentials: "same-origin",
+            redirect: "follow"
+        }).then((response) => {
+            if(response.redirected)
+                window.location = response.url;
+        });
     }
 
     async get(field_type) {

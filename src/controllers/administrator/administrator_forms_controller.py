@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for
 from src.lib.constraints import role_constraint
 from src.queries.shared import FormsQuery
 
@@ -25,4 +25,6 @@ def new():
 @administrator_forms_blueprint.post('/administrator/forms')
 @role_constraint('administrator')
 def create():
-    return 'Created!'
+    form = request
+
+    return redirect(url_for('administrator_forms_controller.index'))
