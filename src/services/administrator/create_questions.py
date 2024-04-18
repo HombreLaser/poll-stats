@@ -1,6 +1,6 @@
-from werkzeug.datastructures import MultiDict
 from src.database.models import Question
 from src.forms import QuestionForm, OptionForm
+from src.lib import dict_to_multidict
 from src.database import db
 
 
@@ -58,13 +58,13 @@ class CreateQuestions:
         options = []
 
         for option in question.get('options'):
-            options.append(OptionForm(MultiDict(option)))
+            options.append(OptionForm(dict_to_multidict(**option)))
 
-        question_form = QuestionForm(MultiDict({ 'content': question.get('content'),
-                                                 'field_type':'selection',
-                                                 'options': options }))
+        question_form = QuestionForm(dict_to_multidict(content=question.get('content'),
+                                                       field_type='selection',
+                                                       options= options))
         self.questions.append(question_form)
 
     def _create_open_question(self, question):
-        question_form = QuestionForm(MultiDict({ 'content': question.get('content'), 'field_type': 'open' }))
+        question_form = QuestionForm(dict_to_multidict(content=question.get('content'), field_type='open'))
         self.questions.append(question_form)

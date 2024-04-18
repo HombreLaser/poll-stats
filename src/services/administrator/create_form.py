@@ -1,9 +1,9 @@
 from flask import session
-from werkzeug.datastructures import MultiDict
 from src.database.models import Form, UserAccount
 from src.forms import CustomForm
 from src.services.administrator import CreateQuestions
 from src.database import db
+from src.lib import dict_to_multidict
 import secrets
 
 
@@ -27,7 +27,7 @@ class CreateForm:
         self.question_creation_service.save_questions(form)
 
     def _create_form(self):
-        form = CustomForm(MultiDict({ 'name': self.submitted_form.get('name') }))
+        form = CustomForm(dict_to_multidict(name=self.submitted_form.get('name')))
         form.questions = self.question_creation_service.create_question_forms()
 
         return form
