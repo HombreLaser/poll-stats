@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from src.lib.constraints import role_constraint
 from src.forms import CustomForm
+from src.services.administrator import CreateForm
 from src.queries.shared import FormsQuery
 
 
@@ -28,6 +29,7 @@ def new():
 @administrator_forms_blueprint.post('/administrator/forms')
 @role_constraint('administrator')
 def create():
-    form = request
+    form_creation_service = CreateForm(request.get_json())
+    form_creation_service.call()
 
     return redirect(url_for('administrator_forms_controller.index'))

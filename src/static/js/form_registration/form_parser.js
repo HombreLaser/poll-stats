@@ -5,6 +5,8 @@ export class FormParser {
 
   parse() {
     const open_field_regex = /^open/;
+    var form_data = { name: this.form.get("name") }
+    this.form.delete("name");
     const entries_iterator = this.form.entries();
     var entries = [];
     var open_field_counter = 0;
@@ -38,7 +40,7 @@ export class FormParser {
           current = entries_iterator.next();
           // Saltamos type
           current = entries_iterator.next()
-          var match = option_matcher.exec(current.value[0]);
+          var match = current.done ? null : option_matcher.exec(current.value[0]);
           var options = [];
 
           while(match != null && !current.done) {
@@ -63,7 +65,8 @@ export class FormParser {
           entries.push(field);
       }
     }
+    form_data.questions = entries;
 
-    return entries;
+    return form_data;
   }
 }

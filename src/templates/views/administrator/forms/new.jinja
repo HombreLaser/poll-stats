@@ -1,5 +1,5 @@
 {% extends 'views/administrator/forms/base.jinja' %}
-{% import 'macros/form.jinja' as form %}
+{% import 'macros/form.jinja' as forms %}
 {% import 'macros/breadcrumb.jinja' as breadcrumb %}
 
 
@@ -10,9 +10,12 @@
 
         <div id="form-container" class="row justify-content-start w-50">
             <form id="form-registration" action="{{ url_for('administrator_forms_controller.create') }}"
-                                         method="POST">
+                                         method="POST"
+                                         novalidate>
 
-                {{ form.render_field(form.name) }}
+                <div class="form-floating mb-3">
+                    {{ forms.render_field(form.name) }}
+                </div>
 
                 <button id="new-field-button" class="btn btn-primary">
                     <i class="bi bi-plus" style="font-size: 1rem"></i>
