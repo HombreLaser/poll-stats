@@ -22,7 +22,7 @@ class Question(db.Model):
     # Si es de selección, contará con una lista JSON que describirá las opciones
     # Estructura:
     # [{ 'content': 'respuesta', 'score': 'ponderación' }]
-    options: Mapped[list[dict[str, any]]] = mapped_column(sqlalchemy.JSON, nullable=True)
+    options = relationship('Option', back_populates='question')
     form: Mapped[Form] = relationship('Form', back_populates='questions') 
     required: Mapped[bool] = mapped_column(sqlalchemy.Boolean, default=False)
     created_at = mapped_column(sqlalchemy.DateTime)
