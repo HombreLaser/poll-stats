@@ -14,7 +14,7 @@
     , una vez tenemos esa diferencia podemos hacer una regla de tres para saber el porcentaje de "riesgo" que se obtuvo por parte de los cuestionarios,
 
                                                     100% --- sumatoria ideal
-                                                    %%  --- diferencia media de las respuestas
+                                                    %%  --- diferencia media de las respuestas.
     
     dependiendo de que tan alto sea el porcentaje de riesgo lo podemos clasificar en una categoría de 60% - 100% = riesgo alto, 30% - 60% riesgo medio, 0% - 30% = bajo riesgo
 
