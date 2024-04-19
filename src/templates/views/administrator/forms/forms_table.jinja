@@ -1,4 +1,4 @@
-{% for forms in page %}
+{% for form in page %}
     <tr>
         <td>
             {{ form.created_at }}
@@ -8,6 +8,11 @@
         </td>
         <td>
             {{ form.status }}
+        </td>
+        <td>
+            <a href="#" class="btn btn-sm btn-primary">
+                Editar
+            </a>
         </td>
     </tr>
 {% endfor %}

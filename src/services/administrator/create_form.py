@@ -18,6 +18,9 @@ class CreateForm:
         self.form = self._create_form()
         self._validate()
 
+        if not self._errors:
+            self._save_form()
+
     @property
     def errors(self):
         return self._errors
@@ -29,10 +32,10 @@ class CreateForm:
             self._errors['form'] = self.form.errors
 
     def _save_form(self):
-        form = Form(name=self.form.name.data, status='review', public_key=secrets.token_hex(12))
+        form = Form(name=self.form.name.data, status='review', public_key=secrets.token_hex(12), author=self._user_account)
         form.author = self._user_account
         db.session.add(form)
-        db.session.commit(form)
+        db.session.commit()
         self._question_creation_service.save_questions(form)
 
     def _create_form(self):

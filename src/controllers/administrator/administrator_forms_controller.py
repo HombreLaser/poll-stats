@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, session
 from src.lib.constraints import role_constraint
 from src.forms import CustomForm
 from src.services.administrator import CreateForm
@@ -12,7 +12,7 @@ templates_context = 'views/administrator/forms'
 @administrator_forms_blueprint.get('/administrator/forms')
 @role_constraint('administrator')
 def index():
-    query = FormsQuery(request.args)
+    query = FormsQuery(request.args, session.get('user_id'))
     forms = query.get_forms()
 
     return render_template(f"{templates_context}/index.jinja", forms=forms)

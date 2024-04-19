@@ -1,4 +1,4 @@
-from src.database.models import Question
+from src.database.models import Question, Option
 from src.forms import QuestionForm, OptionForm
 from src.lib import dict_to_multidict
 from src.database import db
@@ -22,9 +22,9 @@ class CreateQuestions:
 
     def save_questions(self, form):
         for question in self._questions:
-            question_instance = Question(type=question.type.data, content=question.content.data,
-                                         options=question.options.data)
-            question_instance.form = form
+            question_instance = Question(type=question.field_type.data, content=question.content.data, form=form,
+                                         score=None)
+            self._save_options(question_instance, question.options.data)
             db.session.add(question_instance)
 
         db.session.commit()
@@ -32,6 +32,11 @@ class CreateQuestions:
     @property
     def errors(self):
         return self._errors
+
+    def _save_options(self, question, options):
+        for option in options:
+            option_instance = Option(content=option.content.data, score=option.score.data, question=question)
+            db.session.add(option_instance)
 
     def _validate(self):
         question_errors = []
