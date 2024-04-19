@@ -16,9 +16,9 @@ su complejidad.
 Ticket relacionado: [creación de respuestas](./creacion_respuestas.md)
 Ticket relacionado: [creación de modelo de formulario](./modelo_form.md)
 
-- [ ] Vista índice de formularios (administrador).
+- [x] Vista índice de formularios (administrador).
 - [ ] Vista detalles de un formulario.
-- [ ] Formulario de registro de formulario.
+- [x] Formulario de registro de formulario.
 - [ ] Publicación de un formulario.
 - [ ] Cerrar un formulario. Dejar de tomar respuestas.
 - [ ] Procesamiento de respuestas.
