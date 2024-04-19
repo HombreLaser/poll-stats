@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify
 from src.lib.constraints import role_constraint
 from src.forms import CustomForm
 from src.services.administrator import CreateForm
@@ -32,4 +32,7 @@ def create():
     form_creation_service = CreateForm(request.get_json())
     form_creation_service.call()
 
-    return redirect(url_for('administrator_forms_controller.index'))
+    if form_creation_service.errors:
+        return form_creation_service.errors, 422
+    else:
+        return redirect(url_for('administrator_forms_controller.index'))

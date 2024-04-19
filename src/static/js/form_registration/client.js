@@ -21,7 +21,7 @@ export class Client {
         const form_parser = new FormParser(form);
         const entries = form_parser.parse();
 
-        await fetch(submitted_form.action, {
+        const response = await fetch(submitted_form.action, {
             headers: {
                 "X-CSRF-Token": token,
                 "Content-Type": "application/json"
@@ -31,10 +31,9 @@ export class Client {
             mode: "same-origin",
             credentials: "same-origin",
             redirect: "follow"
-        }).then((response) => {
-            if(response.redirected)
-                window.location = response.url;
         });
+
+        return response;
     }
 
     async get(field_type) {

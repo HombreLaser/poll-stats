@@ -6,22 +6,22 @@ from src.database import db
 
 class CreateQuestions:
     def __init__(self, raw_questions: dict):
-        self.raw_questions = raw_questions
-        self.questions = []
-        self.error_messages = {}
+        self._raw_questions = raw_questions
+        self._questions = []
+        self._errors = {}
 
     def create_question_forms(self):
-        for question in self.raw_questions:
+        for question in self._raw_questions:
             if question.get('type') == 'open':
                 self._create_open_question(question)
             else:
                 self._create_selection_question(question)
 
         self._validate()
-        return self.questions
+        return self._questions
 
     def save_questions(self, form):
-        for question in self.questions:
+        for question in self._questions:
             question_instance = Question(type=question.type.data, content=question.content.data,
                                          options=question.options.data)
             question_instance.form = form
@@ -29,15 +29,23 @@ class CreateQuestions:
 
         db.session.commit()
 
+    @property
+    def errors(self):
+        return self._errors
+
     def _validate(self):
         question_errors = []
         option_errors = []
 
-        for question in self.questions:
+        for question in self._questions:
             question_errors.append(self._validate_question(question))
             option_errors.append(self._validate_options(question.options))
 
-        print('Check')
+        if question_errors.count(None) != len(question_errors):
+            self._errors['questions'] = question_errors
+
+        if option_errors.count([]) != len(option_errors):
+            self._errors['options'] = option_errors
 
     def _validate_question(self, question):
         if not question.validate():
@@ -63,8 +71,8 @@ class CreateQuestions:
         question_form = QuestionForm(dict_to_multidict(content=question.get('content'),
                                                        field_type='selection',
                                                        options= options))
-        self.questions.append(question_form)
+        self._questions.append(question_form)
 
     def _create_open_question(self, question):
         question_form = QuestionForm(dict_to_multidict(content=question.get('content'), field_type='open'))
-        self.questions.append(question_form)
+        self._questions.append(question_form)

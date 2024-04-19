@@ -140,4 +140,59 @@ export class Renderer {
     options_container.children[0].children[0].setAttribute("name", `content_${this.options_counter}`);
     options_container.children[1].children[0].setAttribute("name", `score_${this.options_counter}`);
   }
+
+  renderErrors(errors) {
+    const elements = Array.from(this.form.elements);
+    const question_regex = /(open|selection)_(content|type)_\d/;
+    var option_errors_index = 0;
+    var question_errors_index = 0;
+
+    // Errores en el campo de nombre de formulario.
+    if('form' in errors)
+      this.renderErrorsInField(elements[0], errors.form);
+
+    for(const element of elements.slice(1)) {
+      if(element.nodeName != "INPUT")
+        continue;
+
+      if(question_regex.exec(element.name)) {
+        this.renderErrorsInField(element, errors.questions[question_errors_index]);
+        ++question_errors_index;
+
+        continue;
+      }
+
+      if(errors.options.length > 0)
+        this.renderErrorsInField(element, errors.options[question_errors_index - 1][option_errors_index]);
+
+      ++option_errors_index;
+    }
+  }
+
+  renderErrorsInField(field, errors) {
+    if(!errors)
+      return;
+    
+    field.setAttribute("class", field.getAttribute("class") + " is-invalid");
+    const errors_list = this.createErrorList(errors);
+    field.parentElement.appendChild(errors_list);
+  }
+
+  createErrorList(errors) {
+    const list = document.createElement("ul");
+    list.setAttribute("class", "text-danger no-bullets");
+
+    for(const attribute of ['content', 'name', 'options']) {
+      if(!(attribute in errors))
+        continue;
+
+      for(const error of errors[attribute]) {
+        const error_element = document.createElement("li");
+        error_element.innerText = error;
+        list.appendChild(error_element);
+      }
+    }
+
+    return list;
+  }
 }

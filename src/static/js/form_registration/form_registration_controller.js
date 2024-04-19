@@ -24,6 +24,15 @@ export class FormRegistrationController {
 
   async submit(event) {
     event.preventDefault();
-    await this.client.submit(event.target);
+    const response = await this.client.submit(event.target);
+
+    if(response.status == 200) {
+      window.location = response.url;
+      return;
+    }
+
+    const errors = await response.json();
+
+    this.renderer.renderErrors(errors);
   }
 }
