@@ -1,0 +1,28 @@
+{% import 'macros/modal.jinja' as modal %}
+
+{% for user in page %}
+    <tr>
+        <td>{{ user.email }}</td>
+        <td>{{ user.first_name }}</td>
+        <td>{{ user.last_name }}</td>
+        <td>
+            {% if user.activated %}
+                Activado
+            {% else %}
+                Pendiente de activación
+            {% endif %}
+        </td>
+        <td>
+            {% if not user.activated and user.invite_code %}
+                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="{{ '#invite-url-modal-{}'.format(user.id) }}">
+                    Ver
+                </button>
+            {% else %}
+            {% endif %}
+        </td>
+    </tr>
+
+    {% if not user.activated and user.invite_code %}
+        {{ modal.render('invite-url-modal-{}'.format(user.id), 'URL de invitación', url_for('registrations_controller.new', invite_code=user.invite_code, _external=True)) }}
+    {% endif %}   
+{% endfor %}

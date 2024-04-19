@@ -1,0 +1,30 @@
+{% import 'macros/pagination.jinja' as pagination %}
+{% import 'macros/form.jinja' as form %}
+
+{% macro render_table(table_title, page, endpoint, table_body, order_options) %}
+    {{ form.search_form(endpoint, order_options) }}
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            {{ table_title }}
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        {% for header in varargs %}
+                            <th>{{ header }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% with page=page %}
+                        {% include table_body %}
+                    {% endwith %}
+                </tbody>
+            </table>
+            {{ pagination.render(page, endpoint) }}
+        </div>
+    </div>
+{% endmacro %}

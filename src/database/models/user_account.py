@@ -15,6 +15,7 @@ class UserAccount(db.Model):
     role = mapped_column(sqlalchemy.String(16), default='administrator')
     first_name: Mapped[str] = mapped_column(sqlalchemy.String(64), nullable=False)
     last_name: Mapped[str] = mapped_column(sqlalchemy.String(64), nullable=False)
+    invite_code = mapped_column(sqlalchemy.String(128), nullable=True)
     activated: Mapped[str] = mapped_column(sqlalchemy.Boolean, default=False)
     # Nullable porque será definido por el usuario cuando acceda a la invitación.
     _password = mapped_column('password', sqlalchemy.String(512), nullable=True)

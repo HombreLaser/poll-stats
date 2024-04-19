@@ -4,7 +4,7 @@ import wtforms.widgets as wtforms_widgets
 class AttrSetter:
     def _attrs(self, params: dict, **kwargs):
         css_class = kwargs.pop('class', '') or kwargs.pop('class', '')
-        params_except_class = { key: params[key] for key in set(list(params.keys())) - set('class') }
+        params_except_class = { key: params[key] for key in set(list(params.keys())) - set(['class']) }
         render_params = {
             'class': '%s %s' % (params.get('class'), css_class)
         }

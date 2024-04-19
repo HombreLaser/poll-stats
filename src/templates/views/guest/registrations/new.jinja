@@ -1,0 +1,24 @@
+{% extends 'views/guest/base.jinja' %}
+{% import 'macros/form.jinja' as form_renderer %}
+
+{% block title %}Registro{% endblock %}
+
+{% block form_title %}
+    Activación                  
+{% endblock %}
+
+{% block form %}
+    <form action="{{ url_for('registrations_controller.create', invite_code=invite_code) }}" method="post">
+        {{ form.csrf_token }}
+
+        <div class="form-floating mb-3">
+            {{ form_renderer.render_field(form.password) }}
+        </div>
+        <div class="form-floating mb-3">
+            {{ form_renderer.render_field(form.password_confirm) }}
+        </div>
+        <div class="d-flex justify-content-end mt-4 mb-0">
+            <input id="submit_button" type="submit" class="btn btn-primary" value="Registrarse" />
+        </div>
+    </form>
+{% endblock %}
