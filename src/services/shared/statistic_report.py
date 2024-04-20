@@ -4,39 +4,31 @@
 import numpy as np
 
 
-def analisis_por_respuesta(respuestas,ponderacion_por_respuesta):
+def analyze(responses, response_weights):
+    score = np.dot(responses, response_weights)
 
-    ponderacion_final_de_la_respuesta = np.dot(respuestas,ponderacion_por_respuesta)
-    return ponderacion_final_de_la_respuesta
-    
-def analisis_de_la_mejor_respuesta(mejores_respuestas, ponderacion_por_respuesta):
+    return score
 
-    ponderacion_final_de_la_respuesta = np.dot(mejores_respuestas,ponderacion_por_respuesta)
-
-    return ponderacion_final_de_la_respuesta
 
 #lista_de_respuestas - lista de listas con cada una de las respuestas de un formulario
 #lista_ponderacion_de_respuestas - lista con el valor ponderado de cada respuesta recibida del formulario
 #estadistico_final_de_las_respuestas - media de los valores dentro de lista_ponderacion_de_respuestas
 #diferencia_entre_respuesta_ideal_estadistico_final - diferencia entre la respuesta ideal del formulario y la media de las respuestas recibidas
 #Conclusion_del_riesgo - conclusion entre si es riesgo alto medio o casi nulo
-def conclusion_del_riesgo(lista_de_respuestas, mejor_respuesta, ponderacion_por_respuesta):
+def conclusion_del_riesgo(responses, best_responses, response_weights):
+    response_scores = []
+    best_response = analyze(best_responses, response_weights)
 
-    lista_ponderacion_de_respuestas = []
-    best_response = analisis_de_la_mejor_respuesta(mejor_respuesta)
+    for response in responses:
+        response_scores.append(analyze(response, response_weights))
 
-    for  i in lista_de_respuestas:
-        lista_ponderacion_de_respuestas.append(analisis_por_respuesta(i,ponderacion_por_respuesta))
+    response_mean = np.mean(response_scores)
 
-    estadistico_final_de_las_respuestas = np.mean(lista_ponderacion_de_respuestas)
+    risk = ((best_response - estadistico_final_de_las_respuestas) * 100) / best_response
 
-    diferencia_entre_respuesta_ideal_estadistico_final = best_response - estadistico_final_de_las_respuestas
-
-    conclusion = (diferencia_entre_respuesta_ideal_estadistico_final*100) / best_response
-
-    if conclusion >= 60:
+    if risk >= 60:
         return 'Riesgo Alto'
-    elif conclusion >= 30 and conclusion <= 60:
+    elif risk >= 30 and risk <= 60:
         return 'Riesgo Medio'
     else: 
         return 'Riesgo Bajo'
