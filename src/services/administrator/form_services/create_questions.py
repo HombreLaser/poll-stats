@@ -20,6 +20,18 @@ class CreateQuestions:
         self._validate()
         return self._questions
 
+    def create_question_forms_from_instances(self, questions):
+        question_forms = []
+
+        for question in questions:
+            question_form = QuestionForm(obj=question)
+            question_form.options.data = self._create_option_forms_from_instances(
+                question.options
+            )
+            question_forms.append(question_form)
+
+        return question_forms
+
     def save_questions(self, form):
         for question in self._questions:
             question_instance = Question(type=question.field_type.data, content=question.content.data, form=form,
@@ -32,6 +44,14 @@ class CreateQuestions:
     @property
     def errors(self):
         return self._errors
+
+    def _create_option_forms_from_instances(self, options):
+        option_forms = []
+
+        for option in options:
+            option_forms.append(OptionForm(obj=option))
+
+        return option_forms
 
     def _save_options(self, question, options):
         for option in options:

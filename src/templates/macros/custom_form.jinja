@@ -1,0 +1,78 @@
+{% import 'macros/buttons.jinja' as buttons %}
+
+{% macro render(form) %}
+    {% for question in form.questions.data %}
+        {% if question.field_type == 'open' %}
+            {{ render_open_question(question) }}
+        {% else %}
+            {{ render_selection_question(question)}}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+{% macro render_open_question(form) %}
+    <div class="open">
+        <div class="form-floating mb-3">
+            {{ form.content(class_='content-field') }}
+            {{ form.content.label }}
+        </div>
+
+        <div class="form-floating mb-3">
+            {{ form.field_type(class_='form-select') }}
+            {{ form.field_type.label }}
+        </div>
+
+        <div class="mb-3">
+            {{ buttons.delete_button('Borrar pregunta', button_id) }}
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro render_selection_question(form) %}
+    <div class="selection">
+        <div class="form-floating mb-3">
+            {{ form.content(class_='content-field') }}
+            {{ form.content.label }}
+        </div>
+
+        <div class="form-floating mb-3">
+            {{ form.field_type(class_='form-select') }}
+            {{ form.field_type.label }}
+        </div>
+
+        <div class="options-container ml-6">
+            {% if form.options %}
+                {% for option in form.options.data %}
+                    {{ render_option(option) }}
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <button id="{{ button_id }}" class="btn btn-primary add-option mr-3">
+                <i class="bi bi-plus" style="font-size: 1.2rem"></i>
+                Agregar opción
+            </button>
+
+            {{ buttons.delete_button('Borrar pregunta', button_id) }}
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro render_option(form) %}
+    <div class="options mb-3">
+        <div class="form-floating mb-3">
+                {{ form.content(class_='content-field') }}
+                {{ form.content.label }}
+        </div>
+
+        <div class="form-floating mb-3">
+            {{ form.score(class_='form-select') }}
+            {{ form.score.label }}
+        </div>
+
+        <div class="mb-3">
+            {{ buttons.delete_button('Borrar opción', button_id, render_icon=False)}}
+        </div>
+    </div>
+{% endmacro %}

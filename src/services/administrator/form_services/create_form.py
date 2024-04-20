@@ -1,7 +1,7 @@
 from flask import session
 from src.database.models import Form, UserAccount
 from src.forms import CustomForm
-from src.services.administrator import CreateQuestions
+from src.services.administrator.form_services import CreateQuestions
 from src.database import db
 from src.lib import dict_to_multidict
 import secrets
@@ -20,6 +20,14 @@ class CreateForm:
 
         if not self._errors:
             self._save_form()
+
+    def create_form_from_instance(self, form_instance):
+        question_forms = self._question_creation_service \
+                             .create_question_forms_from_instances(form_instance.questions)
+        custom_form = CustomForm(obj=form_instance)
+        custom_form.questions.data = question_forms
+
+        return custom_form
 
     @property
     def errors(self):

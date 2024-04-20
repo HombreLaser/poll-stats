@@ -10,7 +10,7 @@
             {{ form.status }}
         </td>
         <td>
-            <a href="#" class="btn btn-sm btn-primary">
+            <a href="{{ url_for('administrator_forms_controller.edit', form_id=form.id) }}" class="btn btn-sm btn-primary">
                 Editar
             </a>
         </td>

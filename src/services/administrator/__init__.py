@@ -1,2 +1,1 @@
-from src.services.administrator.create_questions import CreateQuestions
-from src.services.administrator.create_form import CreateForm
+from src.services.administrator import form_services

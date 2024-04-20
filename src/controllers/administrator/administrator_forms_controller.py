@@ -1,7 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from src.lib.constraints import role_constraint
+from src.database.models import Form
+from src.database import db
 from src.forms import CustomForm
-from src.services.administrator import CreateForm
+from src.services.administrator.form_services import CreateForm
 from src.queries.shared import FormsQuery
 
 
@@ -24,6 +26,20 @@ def new():
     form = CustomForm()
 
     return render_template(f"{templates_context}/new.jinja", form=form)
+
+
+@administrator_forms_blueprint.get('/administrator/forms/<int:form_id>/edit')
+@role_constraint('administrator')
+def edit(form_id):
+    form = db.session.get(Form, form_id)
+
+    if form != None:
+        service = CreateForm({})
+        custom_form = service.create_form_from_instance(form)
+
+        return render_template(f"{templates_context}/edit.jinja", form=custom_form)
+
+    return redirect('administrator_forms_controller.index')
 
 
 @administrator_forms_blueprint.post('/administrator/forms')

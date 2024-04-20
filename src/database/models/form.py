@@ -21,6 +21,7 @@ class Form(db.Model):
     )
     public_key: Mapped[str] = mapped_column(sqlalchemy.String(24), nullable=True, index=True)
     author: Mapped[UserAccount] = relationship('UserAccount', back_populates='forms')
-    questions = relationship('Question', back_populates='form')
+    questions = relationship('Question', back_populates='form', lazy='select', 
+                                         cascade='save-update,merge,delete,delete-orphan')
     created_at = mapped_column(sqlalchemy.DateTime)
     updated_at = mapped_column(sqlalchemy.DateTime)

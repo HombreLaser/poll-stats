@@ -19,6 +19,9 @@ def create_app():
     initialize_blueprints(app)
     csrf.init_app(app)
 
+    with app.app_context():
+        from src import template_globals
+
     return app
 
 

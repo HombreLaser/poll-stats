@@ -1,0 +1,12 @@
+{% extends 'views/administrator/forms/base.jinja' %}
+{% import 'macros/custom_form.jinja' as custom_form %}
+{% import 'macros/breadcrumb.jinja' as breadcrumb %}
+
+{% block content %}
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Editar formulario</h1>
+        {{ breadcrumb.render('Editar formulario', { url_for('administrator_forms_controller.index'): 'Formularios' }) }}
+
+        {{ custom_form.render(form) }}
+    </div>
+{% endblock %}
