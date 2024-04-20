@@ -1,8 +1,9 @@
 #respuestas - arreglo con el valor de cada respuesta que se selecciono en el formulario
 #mejores_respuestas - arreglo con el valor de la mejor respuesta de cada pregunta del formualario
 #ponderacion_por_respuesta - arreglo el indice de valor de cada respuesta (Alta, Media, baja)
+import numpy as np
 
-import numpy as np 
+
 def analisis_por_respuesta(respuestas,ponderacion_por_respuesta):
 
     ponderacion_final_de_la_respuesta = np.dot(respuestas,ponderacion_por_respuesta)
