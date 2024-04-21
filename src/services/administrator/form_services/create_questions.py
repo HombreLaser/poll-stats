@@ -1,6 +1,5 @@
 from src.database.models import Question, Option
 from src.forms import QuestionForm, OptionForm
-from src.lib import dict_to_multidict
 from src.database import db
 
 
@@ -13,7 +12,7 @@ class CreateQuestions:
     def create_question_forms(self):
         for question in self._raw_questions:
             if question.get('type') == 'open':
-                self._create_open_question(question)
+                self._questions.append(QuestionForm(question))
             else:
                 self._create_selection_question(question)
 
@@ -34,7 +33,7 @@ class CreateQuestions:
 
     def save_questions(self, form):
         for question in self._questions:
-            question_instance = Question(type=question.field_type.data, content=question.content.data, form=form,
+            question_instance = Question(type=question.type.data, content=question.content.data, form=form,
                                          score=None)
             self._save_options(question_instance, question.options.data)
             db.session.add(question_instance)
@@ -88,16 +87,10 @@ class CreateQuestions:
         return option_errors
 
     def _create_selection_question(self, question):
-        options = []
+        question_form = QuestionForm(question)
+        question_form.options.data = []
 
-        for option in question.get('options'):
-            options.append(OptionForm(dict_to_multidict(**option)))
+        for option in question.getlist('options'):
+            question_form.options.data.append(OptionForm(option))
 
-        question_form = QuestionForm(dict_to_multidict(content=question.get('content'),
-                                                       field_type='selection',
-                                                       options= options))
-        self._questions.append(question_form)
-
-    def _create_open_question(self, question):
-        question_form = QuestionForm(dict_to_multidict(content=question.get('content'), field_type='open'))
         self._questions.append(question_form)

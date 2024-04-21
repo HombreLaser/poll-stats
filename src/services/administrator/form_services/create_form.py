@@ -2,20 +2,22 @@ from flask import session
 from src.database.models import Form, UserAccount
 from src.forms import CustomForm
 from src.services.administrator.form_services import CreateQuestions
+from src.services.administrator.form_services import FormParser
 from src.database import db
 from src.lib import dict_to_multidict
 import secrets
 
 
 class CreateForm:
-    def __init__(self, submitted_form: dict):
-        self._submitted_form = submitted_form
+    def __init__(self, submitted_form):
+        self._parser = FormParser()
+        self._submitted_form = self._parser.parse(submitted_form)
         self._question_creation_service = CreateQuestions(self._submitted_form.get('questions'))
         self._user_account = db.session.get(UserAccount, session.get('user_id'))
         self._errors = {}
 
     def call(self):
-        self.form = self._create_form()
+        self._form = self._create_form()
         self._validate()
 
         if not self._errors:
@@ -30,17 +32,21 @@ class CreateForm:
         return custom_form
 
     @property
+    def form(self):
+        return self._form
+
+    @property
     def errors(self):
         return self._errors
 
     def _validate(self):
         self._errors = self._question_creation_service.errors
 
-        if not self.form.validate():
-            self._errors['form'] = self.form.errors
+        if not self._form.validate():
+            self._errors['form'] = self._form.errors
 
     def _save_form(self):
-        form = Form(name=self.form.name.data, status='review', public_key=secrets.token_hex(12), author=self._user_account)
+        form = Form(name=self._form.name.data, status='review', public_key=secrets.token_hex(12), author=self._user_account)
         form.author = self._user_account
         db.session.add(form)
         db.session.commit()

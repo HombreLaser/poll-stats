@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
+from src.lib.data_structures import RegexMultiDict
 from src.lib.constraints import role_constraint
 from src.database.models import Form
 from src.database import db
@@ -37,15 +38,21 @@ def edit(form_id):
         service = CreateForm({})
         custom_form = service.create_form_from_instance(form)
 
-        return render_template(f"{templates_context}/edit.jinja", form=custom_form)
+        return render_template(f"{templates_context}/edit.jinja", form=custom_form, form_id=form.id)
 
     return redirect('administrator_forms_controller.index')
+
+
+@administrator_forms_blueprint.patch('/administrator/forms/<int:form_id>')
+@role_constraint('administrator')
+def update(form_id):
+    return 'Edited'
 
 
 @administrator_forms_blueprint.post('/administrator/forms')
 @role_constraint('administrator')
 def create():
-    form_creation_service = CreateForm(request.get_json())
+    form_creation_service = CreateForm(request.form)
     form_creation_service.call()
 
     if form_creation_service.errors:

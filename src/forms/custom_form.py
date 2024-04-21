@@ -11,6 +11,7 @@ def present_questions(form, field):
 
 
 class CustomForm(BaseForm):
+    id = wtforms.IntegerField(widget=wtforms.widgets.HiddenInput())
     name = wtforms.StringField('Nombre', validators=[validators.InputRequired(), validators.Length(max=512)],
                                          widget=TextInputWidget())
     questions = ListField('Preguntas', validators=[present_questions])

@@ -5,8 +5,21 @@
 {% block content %}
     <div class="container-fluid px-4">
         <h1 class="mt-4">Editar formulario</h1>
+        <h2 class="mt-4 mb-3">{{ form.name.data }}</h2>
         {{ breadcrumb.render('Editar formulario', { url_for('administrator_forms_controller.index'): 'Formularios' }) }}
 
-        {{ custom_form.render(form) }}
+        <form id="form-registration" action="{{ url_for('administrator_forms_controller.update', form_id=form_id) }}"
+                                         method="POST"
+                                         novalidate>
+            {{ custom_form.render(form) }}
+
+            <input type="submit" id="submit-button" class="btn btn-success ml-6" value="Enviar"/>
+        </form>
     </div>
+
+    <script type="module">
+        import { edit_main } from "{{ url_for('static', filename='js/form_registration/main.js', _external=True) }}";
+
+        edit_main("{{ url_for('fields_controller.index', _external=True) }}");
+    </script>
 {% endblock %}

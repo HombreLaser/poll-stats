@@ -33,7 +33,7 @@ export class Renderer {
 
     this.client.getOption().then((option) => {
       const new_option = option.querySelector(".options");
-      this.setOptionFieldNames(option);
+      this.setOptionFieldNames(options_container, option);
       options_container.appendChild(new_option);
       this.listenForOptionDeletion(options_container, new_option, new_option_button);
     });
@@ -127,18 +127,16 @@ export class Renderer {
   setFieldNames(field_container) {
     const type = field_container.getAttribute("class");
     const counter = type == "open" ? this.open_field_counter : this.selection_field_counter;
-    const new_content_field_name = `${type}_content_${counter}`;
-    const new_type_name = `${type}_type_${counter}`;
+    const new_content_field_name = `${type}[content][${counter}]`;
 
     field_container.children[0].children[0].setAttribute("name", new_content_field_name);
-    field_container.children[1].children[0].setAttribute("name", new_type_name);
   }
 
-  setOptionFieldNames(options) {
-    var options_container = options.querySelector(".options");
-
-    options_container.children[0].children[0].setAttribute("name", `content_${this.options_counter}`);
-    options_container.children[1].children[0].setAttribute("name", `score_${this.options_counter}`);
+  setOptionFieldNames(options_container, options) {
+    const selection_id = /selection\[content\]\[(\d)\]/.exec(options_container.parentElement.children[0].children[0].name)[1];
+    const container = options.querySelector(".options");
+    container.children[0].children[0].setAttribute("name", `option[${this.options_counter}][selection][${selection_id}][content]`);
+    container.children[1].children[0].setAttribute("name", `option[${this.options_counter}][selection][${selection_id}][score]`);
   }
 
   renderErrors(errors) {
