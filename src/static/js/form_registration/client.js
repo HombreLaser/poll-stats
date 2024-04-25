@@ -47,12 +47,32 @@ export class Client {
     const body = await fetch(
       `${this.route}/selection/option`,
       {
-          method: "GET",
-          mode: "same-origin",
-          credentials: "same-origin"
+        method: "GET",
+        mode: "same-origin",
+        credentials: "same-origin"
       }
     ).then((response) => { return response.text() });
 
     return this.htmlFromResponse(body);
+  }
+
+  async publish(event) {
+    event.preventDefault();
+    const form_id = window.location.pathname.split('/')[3];
+    const response = await fetch(
+      window.location.href.replace("/edit", "/publish"),
+      {
+        headers: {
+          "X-CSRF-Token": token
+        },
+        method: "POST",
+        mode: "same-origin",
+        credentials: "same-origin",
+        redirect: "follow"
+      }
+    );
+
+    if(response.status == 200)
+      window.location = response.url;
   }
 }

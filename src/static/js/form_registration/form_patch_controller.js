@@ -5,10 +5,10 @@ export class FormPatchController extends Controller {
   constructor(route, token) {
     super(route, token);
     this.prepareFields();
-    this.old_form_data = (new FormParser(new FormData(this.form))).parseByIds();
     this.disableButtons();
     this.listenForNewOptions();
     this.listenForFieldDeletions();
+    this.listenForPublication();
   }
 
   async submit(event) {
@@ -77,5 +77,10 @@ export class FormPatchController extends Controller {
   prepareOptionField(field, id) {
     field.children[0].children[0].setAttribute("name", `option_content_${id}`);
     field.children[1].children[0].setAttribute("name", `option_score_${id}`);
+  }
+
+  listenForPublication() {
+    const button = document.getElementById("publish-button");
+    button.addEventListener("click", this.client.publish.bind(this.client));
   }
 }

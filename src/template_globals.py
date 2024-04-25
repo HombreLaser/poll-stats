@@ -14,3 +14,13 @@ def field_class(field_type, form):
         return f"{field_type}_{form.id.data}"
     else:
         return field_type
+
+@current_app.template_global()
+def status(form):
+     match form.status:
+        case 'review':
+            return 'En reseña'
+        case 'open':
+            return 'Recibiendo respuestas'
+        case 'closed':
+            return 'Cerrado'

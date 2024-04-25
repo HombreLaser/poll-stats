@@ -59,3 +59,16 @@ def create():
         return form_creation_service.errors, 422
     else:
         return redirect(url_for('administrator_forms_controller.index'))
+
+    
+@administrator_forms_blueprint.post('/administrator/forms/<int:form_id>/publish')
+def publish(form_id: int):
+    form = db.session.get(Form, form_id)
+
+    if form is None or form.status == 'open':
+        abort(404)
+
+    form.status = 'open'
+    db.session.commit()
+
+    return redirect(url_for('administrator_forms_controller.index'))
