@@ -13,3 +13,10 @@ class FormsQuery(BaseQuery):
         self.scope = sqlalchemy.select(Form).filter(Form.user_account_id == self._user_account_id)
 
         return self.search().order_by_param().paginate()
+
+
+def get_form_by_public_key(public_key: str):
+    query = sqlalchemy.select(Form).filter(Form.status == 'open') \
+                                   .filter(Form.public_key == public_key)
+                                
+    return db.session.execute(query).scalar()

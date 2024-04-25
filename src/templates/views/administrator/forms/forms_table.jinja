@@ -1,3 +1,5 @@
+{% import 'macros/modal.jinja' as modal %}
+
 {% for form in page %}
     <tr>
         <td>
@@ -16,5 +18,16 @@
                 </a>
             {% endif %}
         </td>
+        <td>
+            {% if form.status == 'open' %}
+                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="{{ '#form-url-modal-{}'.format(form.id) }}">
+                    Ver
+                </button>
+            {% endif %}
+        </td>
     </tr>
+
+    {% if form.status == 'open' %}
+        {{ modal.render('form-url-modal-{}'.format(form.id), 'URL público del formulario', url_for('guest_responses_controller.new', form_public_key=form.public_key, _external=True)) }}
+    {% endif %}
 {% endfor %}
