@@ -30,6 +30,19 @@ export class Client {
     return response;
   }
 
+  async get(field_type) {
+    const body = await fetch(
+        `${this.route}?field_type=${field_type}`,
+        {
+            method: "GET",
+            mode: "same-origin",
+            credentials: "same-origin"
+        }
+    ).then((response) => { return response.text() });
+
+    return this.fromResponse(body, field_type);
+  }
+
   async getOption() {
     const body = await fetch(
       `${this.route}/selection/option`,
