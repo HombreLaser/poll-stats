@@ -1,0 +1,19 @@
+{% extends 'views/guest/responses/base.jinja' %}
+{% import 'macros/custom_form.jinja' as form_renderer %}
+
+{% block title %}Respuesta{% endblock %}
+
+{% block form_title %}
+    Nueva respuesta
+{% endblock %}
+
+{% block form %}
+    <form action="{{ url_for('guest_responses_controller.create', form_public_key=form.public_key) }}" method="post" novalidate>
+        {{ form.csrf_token }}
+        {{ form_renderer.render_guest_form(form) }}
+
+        <div class="d-flex justify-content-end mt-4 mb-0">
+            <input id="login_button" type="submit" class="btn btn-primary" value="Enviar" />
+        </div>
+    </form>
+{% endblock %}

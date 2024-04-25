@@ -1,0 +1,18 @@
+{% extends 'views/guest/base.jinja' %}
+
+{% block card %}
+    <div class="col-lg-5">
+        <div class="card shadow-lg border-0 rounded-lg mt-5">
+            <div class="card-header">
+                <h3 class="text-center font-weight-light my-4">
+                    {% block form_title required %}
+                    {% endblock %}
+                </h3>
+            </div>
+            <div class="card-body">
+                {% block form required %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

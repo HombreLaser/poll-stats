@@ -86,3 +86,23 @@
         </div>
     </div>
 {% endmacro %}
+
+{% macro render_guest_form(form) %}
+    {% for question in form.questions %}
+        {% if question.type == 'open' %}
+            <div class="form-floating mb-3">
+                <input class="form-control" type="text" id="open[{{ loop.index }}]" name="open[{{ loop.index }}]"/>
+                <label for="open[{{ loop.index }}]">{{ question.content }}</label>
+            </div>
+        {% else %}
+            <div class="form-floating mb-3">
+                <select class="form-select form-select-md" name="selection[{{ loop.index }}]" id="selection[{{ loop.index }}]">
+                    {% for option in question.options %}
+                        <option value="{{ option.score }}">{{ option.content }}</option>
+                    {% endfor %}
+                </select>
+                <label for="selection[{{ loop.index }}]">{{ question.content }}</label>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
