@@ -1,6 +1,6 @@
 # El usuario maestro puede crear usuarios (normales).
 
-## Responsable:
+## Responsable: Luis Sebastian
 
 El usuario maestro puede registrar nuevos usuarios. (Revisar [este ticket](./registro_usuarios.md) para la
 lógica de las invitaciones y la activación de usuarios). Requiere:
@@ -10,3 +10,10 @@ lógica de las invitaciones y la activación de usuarios). Requiere:
   de usuarios).
 * Formulario de registro de usuario.
 * Índice de usuarios registrados.
+
+TAREAS
+
+- [x] Crear vista index de usuarios con su tabla.
+- [x] Añadir paginación a la tabla de usuarios.
+- [x] Añadir búsqueda de usuarios.
+- [x] Añadir formulario de registro de usuarios.
