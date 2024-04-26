@@ -43,9 +43,16 @@ def edit(form_id):
     return redirect('administrator_forms_controller.index')
 
 
-@administrator_forms_blueprint.patch('/administrator/forms/<int:form_id>')
+@administrator_forms_blueprint.put('/administrator/forms/<int:form_id>')
 @role_constraint('administrator')
 def update(form_id):
+    form = db.session.get(Form, form_id)
+
+    if form != None:
+        pass
+
+    return redirect('administrator_forms_controller.index')
+
     return 'Edited'
 
 

@@ -3,33 +3,26 @@ from src.lib.data_structures import RegexMultiDict, dict_to_multidict
 
 
 class FormParser:
-    def parse(self, form):
-        self._form = RegexMultiDict(mapping=form)
-        self._questions = []
-        self._get_open_questions()
-        self._get_selection_questions()
+    def parse_new_options(self, form):
+        pass
 
-        return MultiDict([('name', self._form.get('name')), ('questions', self._questions)])
+    def _init_update_patterns(self):
+        pass
 
     def _get_open_questions(self):
-        pattern = 'open\[content\]\[\d\]'
-
-        for key, value in self._form.items_regex(pattern):
+        for key, value in self._form.items_regex(_open_question_pattern):
             self._questions.append(dict_to_multidict(type='open', content=value))
 
     def _get_selection_questions(self):
-        pattern = 'selection\[content\]\[(?P<id>\d)\]'
-
         for match, value in self._form.items_regex(pattern, yield_match=True):
             options = self._get_question_options(match['id'])
             self._questions.append(dict_to_multidict(type='selection', content=value,
                                                      options=options))
 
     def _get_question_options(self, question_id):
-        pattern = f"option\[(?P<option_id>\d)\]\[selection\]\[{question_id}\]\[(?P<field>content|score)\]"
         options = []
 
-        for match, value in self._form.items_regex(pattern, yield_match=True):
+        for match, value in self._form.items_regex(self._option_pattern(question_id), yield_match=True):
             if self._form.get(match.group(0)) is None:
                 continue
         

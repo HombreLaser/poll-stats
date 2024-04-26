@@ -13,14 +13,14 @@ export class Client {
     return this.htmlFromResponse(body).querySelector(`.${field_type}`);
   }
 
-  async submit(submitted_form) {
+  async submit(submitted_form, method="POST") {
     const form = new FormData(submitted_form);
 
     const response = await fetch(submitted_form.action, {
         headers: {
             "X-CSRF-Token": token
         },
-        method: "POST",
+        method: method,
         body: form,
         mode: "same-origin",
         credentials: "same-origin",

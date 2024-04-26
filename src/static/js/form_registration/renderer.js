@@ -1,12 +1,13 @@
 export class Renderer {
-  constructor(client, field_button, form) {
+  constructor(client, field_button, form, update_form=false) {
+    this.update_form = update_form;
     this.client = client;
     this.field_button = field_button;
     this.form = form;
     this.last_rendered_field = null;
     this.open_field_counter = 0;
     this.selection_field_counter = 0;
-    this.options_counter = 0;
+    this.options_counter = document.querySelectorAll("input[name^=option").length;
   }
 
   disableButton(button, event, func) {
@@ -127,21 +128,31 @@ export class Renderer {
   setFieldNames(field_container) {
     const type = field_container.getAttribute("class");
     const counter = type == "open" ? this.open_field_counter : this.selection_field_counter;
-    const new_content_field_name = `${type}[content][${counter}]`;
+
+    if(this.update_form)
+      var new_content_field_name = `new_${type}[content][${counter}]`;
+    else
+      var new_content_field_name = `${type}[content][${counter}]`;
 
     field_container.children[0].children[0].setAttribute("name", new_content_field_name);
   }
 
   setOptionFieldNames(options_container, options) {
     const selection_id = /selection\[content\]\[(\d)\]/.exec(options_container.parentElement.children[0].children[0].name)[1];
+
+    if(this.update_form)
+      var name = `new_option[${this.options_counter}][selection][${selection_id}]`;
+    else
+      var name = `option[${this.options_counter}][selection][${selection_id}]`;
+
     const container = options.querySelector(".options");
-    container.children[0].children[0].setAttribute("name", `option[${this.options_counter}][selection][${selection_id}][content]`);
-    container.children[1].children[0].setAttribute("name", `option[${this.options_counter}][selection][${selection_id}][score]`);
+    container.children[0].children[0].setAttribute("name", name + "[content]");
+    container.children[1].children[0].setAttribute("name",  name + "[score]");
   }
 
   renderErrors(errors) {
     const elements = Array.from(this.form.elements);
-    const question_regex = /(open|selection)_(content|type)_\d/;
+    const question_regex = /(open|selection)\[(content|type)\]\[\d\]/;
     var option_errors_index = 0;
     var question_errors_index = 0;
 
@@ -150,7 +161,7 @@ export class Renderer {
       this.renderErrorsInField(elements[0], errors.form);
 
     for(const element of elements.slice(1)) {
-      if(element.nodeName != "INPUT")
+      if(element.nodeName != "INPUT" || element.id == "submit-button")
         continue;
 
       if(question_regex.exec(element.name)) {

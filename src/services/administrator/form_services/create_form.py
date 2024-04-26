@@ -2,7 +2,7 @@ from flask import session
 from src.database.models import Form, UserAccount
 from src.forms import CustomForm
 from src.services.administrator.form_services import CreateQuestions
-from src.services.administrator.form_services import FormParser
+from src.services.administrator.form_services.parsers import NewFormParser
 from src.database import db
 from src.lib import dict_to_multidict
 import secrets
@@ -10,7 +10,7 @@ import secrets
 
 class CreateForm:
     def __init__(self, submitted_form):
-        self._parser = FormParser()
+        self._parser = NewFormParser()
         self._submitted_form = self._parser.parse(submitted_form)
         self._question_creation_service = CreateQuestions(self._submitted_form.get('questions'))
         self._user_account = db.session.get(UserAccount, session.get('user_id'))

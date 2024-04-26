@@ -1,9 +1,9 @@
 import { Controller } from "./controller.js";
 
 
-export class FormPatchController extends Controller {
+export class FormUpdateController extends Controller {
   constructor(route, token) {
-    super(route, token);
+    super(route, token, true);
     this.prepareFields();
     this.disableButtons();
     this.listenForNewOptions();
@@ -13,7 +13,7 @@ export class FormPatchController extends Controller {
 
   async submit(event) {
     event.preventDefault();
-    const response = this.client.patch(event.target, this.current_form_data);
+    const response = this.client.submit(event.target, "PUT");
     this.processResponse(response);
   }
 
@@ -70,13 +70,14 @@ export class FormPatchController extends Controller {
   }
 
   prepare(field, type, id) {
-    field.children[0].children[0].setAttribute("name", `${type}_content_id_${id}`);
-    field.children[1].children[0].setAttribute("name", `${type}_type_id_${id}`);
+    field.children[0].children[0].setAttribute("name", `${type}[content][${id}]`);
+    field.children[1].children[0].setAttribute("name", `${type}[type][${id}]`);
   }
 
   prepareOptionField(field, id) {
-    field.children[0].children[0].setAttribute("name", `option_content_${id}`);
-    field.children[1].children[0].setAttribute("name", `option_score_${id}`);
+    const selection_id = field.parentElement.parentElement.getAttribute("class").split(' ')[0].split('_')[1];
+    field.children[0].children[0].setAttribute("name", `option[${id}][selection][${selection_id}][content]`);
+    field.children[1].children[0].setAttribute("name", `option[${id}][selection][${selection_id}][score]`);
   }
 
   listenForPublication() {
