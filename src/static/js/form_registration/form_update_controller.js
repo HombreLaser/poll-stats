@@ -78,6 +78,8 @@ export class FormUpdateController extends Controller {
     const selection_id = field.parentElement.parentElement.getAttribute("class").split(' ')[0].split('_')[1];
     field.children[0].children[0].setAttribute("name", `option[${id}][selection][${selection_id}][content]`);
     field.children[1].children[0].setAttribute("name", `option[${id}][selection][${selection_id}][score]`);
+    this.renderer.listenForOptionDeletion(field.parentElement, field, 
+                                            field.parentElement.parentElement.querySelector(".add-option"));
   }
 
   listenForPublication() {

@@ -90,7 +90,7 @@ export class Renderer {
   }
 
   listenForOptionDeletion(options_container, option, add_option_button) {
-    option.getElementsByClassName("btn btn-danger remove-question")[0]
+    option.getElementsByClassName("btn btn-danger remove-option")[0]
           .addEventListener("click", (event) => {
             event.preventDefault();
             option.remove();

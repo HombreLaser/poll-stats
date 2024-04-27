@@ -12,12 +12,15 @@
             <form id="form-registration" action="{{ url_for('administrator_forms_controller.update', form_id=form_id) }}"
                                             method="POST"
                                             novalidate>
+                
+                <div class="mb-3">
+                    <button class="btn btn-primary" id="publish-button" type="button">Publicar</button>
+                </div>
+
                 {{ custom_form.render(form) }}
 
                 <input type="submit" id="submit-button" class="btn btn-success ml-6" value="Enviar"/>
-                <button class="btn btn-primary ml-6" id="publish-button" type="button">Publicar</button>
             </form>
-        </div>
         </div>
     </div>
 

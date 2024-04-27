@@ -8,6 +8,11 @@ class FormParser:
 
         return { match['question_id'] for match, _value in self._form.items_regex(pattern, yield_match=True) }
 
+    def get_option_ids(self):
+        pattern = f"option\[(?P<option_id>\d+)\]\[selection\]\[\d+\]\[(content|score)\]"
+
+        return { int(match['option_id']) for match, _value in self._form.items_regex(pattern, yield_match=True) }
+
     def _init_update_patterns(self):
         pass
 

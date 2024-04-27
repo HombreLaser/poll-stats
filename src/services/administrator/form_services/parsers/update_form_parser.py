@@ -48,9 +48,3 @@ class UpdateFormParser(FormParser):
                 ]
 
         self._options = options
-
-    def _simplify_options_dict(self, options_dict: dict):
-        return {
-            question_id: list(question_options.values()) for question_id, question_options in options_dict.items()
-            if options_dict[question_id]
-        }
