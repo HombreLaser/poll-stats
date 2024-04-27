@@ -27,7 +27,12 @@ class RegexMultiDict(MultiDict):
     # Regresa un solo valor relacionado a la expresión regular.
     def item_regex(self, pattern):
         regex = re.compile(pattern)
-        key = regex.search(self._pool).group(0)
+        match = regex.search(self._pool)
+
+        if match is None:
+            return None
+
+        key = match.group(0)
 
         return key, self.get(key)
 

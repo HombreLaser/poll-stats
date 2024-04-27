@@ -1,20 +1,20 @@
 from flask import session
 from src.database.models import Form, UserAccount
 from src.forms import CustomForm
-from src.services.administrator.form_services import CreateQuestions
+from src.services.administrator.form_services import CreateQuestions, FormsServiceBase
 from src.services.administrator.form_services.parsers import NewFormParser
 from src.database import db
 from src.lib import dict_to_multidict
 import secrets
 
 
-class CreateForm:
+class CreateForm(FormsServiceBase):
     def __init__(self, submitted_form):
+        super().__init__(submitted_form)
         self._parser = NewFormParser()
-        self._submitted_form = self._parser.parse(submitted_form)
+        self._submitted_form = self._parser.parse(self._submitted_form)
         self._question_creation_service = CreateQuestions(self._submitted_form.get('questions'))
         self._user_account = db.session.get(UserAccount, session.get('user_id'))
-        self._errors = {}
 
     def call(self):
         self._form = self._create_form()
@@ -34,16 +34,6 @@ class CreateForm:
     @property
     def form(self):
         return self._form
-
-    @property
-    def errors(self):
-        return self._errors
-
-    def _validate(self):
-        self._errors = self._question_creation_service.errors
-
-        if not self._form.validate():
-            self._errors['form'] = self._form.errors
 
     def _save_form(self):
         form = Form(name=self._form.name.data, status='review', public_key=secrets.token_hex(12), author=self._user_account)

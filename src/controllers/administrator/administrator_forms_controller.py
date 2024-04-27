@@ -4,7 +4,7 @@ from src.lib.constraints import role_constraint
 from src.database.models import Form
 from src.database import db
 from src.forms import CustomForm
-from src.services.administrator.form_services import CreateForm
+from src.services.administrator.form_services import CreateForm, UpdateForm
 from src.queries.shared import FormsQuery
 
 
@@ -47,13 +47,13 @@ def edit(form_id):
 @role_constraint('administrator')
 def update(form_id):
     form = db.session.get(Form, form_id)
+    update_service = UpdateForm(form, request.form)
+    update_service.call()
 
-    if form != None:
-        pass
+    if update_service.errors:
+        return update_service.errors, 422
 
-    return redirect('administrator_forms_controller.index')
-
-    return 'Edited'
+    return redirect(url_for('administrator_forms_controller.index')), 303
 
 
 @administrator_forms_blueprint.post('/administrator/forms')
@@ -64,8 +64,8 @@ def create():
 
     if form_creation_service.errors:
         return form_creation_service.errors, 422
-    else:
-        return redirect(url_for('administrator_forms_controller.index'))
+
+    return redirect(url_for('administrator_forms_controller.index'))
 
     
 @administrator_forms_blueprint.post('/administrator/forms/<int:form_id>/publish')

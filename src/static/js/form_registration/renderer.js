@@ -138,12 +138,14 @@ export class Renderer {
   }
 
   setOptionFieldNames(options_container, options) {
-    const selection_id = /selection\[content\]\[(\d)\]/.exec(options_container.parentElement.children[0].children[0].name)[1];
+    const input_name_regex_results = /((new_)?selection)\[content\]\[(\d+)\]/.exec(options_container.parentElement.children[0].children[0].name);
+    const selection_id = input_name_regex_results[3];
+    const selection_type = input_name_regex_results[1];
 
     if(this.update_form)
-      var name = `new_option[${this.options_counter}][selection][${selection_id}]`;
+      var name = `new_option[${this.options_counter}][${selection_type}][${selection_id}]`;
     else
-      var name = `option[${this.options_counter}][selection][${selection_id}]`;
+      var name = `option[${this.options_counter}][${selection_type}][${selection_id}]`;
 
     const container = options.querySelector(".options");
     container.children[0].children[0].setAttribute("name", name + "[content]");
@@ -171,7 +173,7 @@ export class Renderer {
         continue;
       }
 
-      if(errors.options.length > 0)
+      if(errors?.options?.length > 0)
         this.renderErrorsInField(element, errors.options[question_errors_index - 1][option_errors_index]);
 
       ++option_errors_index;

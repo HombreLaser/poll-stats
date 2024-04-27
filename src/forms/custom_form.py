@@ -10,8 +10,13 @@ def present_questions(form, field):
         raise wtforms.ValidationError('Formulario vacío')
 
 
+def question_limit(form, field):
+    if len(field.data) > 12:
+        raise wtforms.ValidationError('Supera el límite de preguntas')
+
+
 class CustomForm(BaseForm):
     id = wtforms.IntegerField(widget=wtforms.widgets.HiddenInput())
     name = wtforms.StringField('Nombre', validators=[validators.InputRequired(), validators.Length(max=512)],
                                          widget=TextInputWidget())
-    questions = ListField('Preguntas', validators=[present_questions])
+    questions = ListField('Preguntas', validators=[present_questions, question_limit])

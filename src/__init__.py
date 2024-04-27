@@ -47,7 +47,8 @@ def load_config(app):
             SQLALCHEMY_DATABASE_URI = connection_string(config, app),
             SECRET_KEY = config['flask']['SECRET_KEY'],
             APPLICATION_ROOT = config['flask']['APPLICATION_ROOT'],
-            SESSION_COOKIE_PATH = '/'
+            SESSION_COOKIE_PATH = '/',
+            SQLALCHEMY_ECHO = True
         )
 
 

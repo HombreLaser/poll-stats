@@ -13,7 +13,7 @@ export class FormUpdateController extends Controller {
 
   async submit(event) {
     event.preventDefault();
-    const response = this.client.submit(event.target, "PUT");
+    const response = await this.client.submit(event.target, "PUT");
     this.processResponse(response);
   }
 
@@ -42,7 +42,7 @@ export class FormUpdateController extends Controller {
   }
 
   prepareFields() {
-    const id_regex = /(open|selection|options)_(\d)/;
+    const id_regex = /(open|selection|options)_(\d+)/;
     this.open_question_ids = [];
     this.selection_question_ids = [];
     this.option_ids = [];
