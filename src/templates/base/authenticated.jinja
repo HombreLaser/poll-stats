@@ -14,13 +14,14 @@
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
-                    <div class="small">Logged in as:</div>
-                    Start Bootstrap
+                    <div class="small">Sesión iniciada como:</div>
+                    {{ current_user().full_name }}
                 </div>
             </nav>
         </div>
         <div id="layoutSidenav_content">
             <main>
+                {% include 'components/flash.jinja' %}
                 {% block content %}
                 {% endblock %}
             </main> 

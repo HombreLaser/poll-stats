@@ -23,6 +23,10 @@ class UserAccount(db.Model):
     created_at = mapped_column(sqlalchemy.DateTime)
     updated_at = mapped_column(sqlalchemy.DateTime)
 
+    @property
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"
+
     @hybrid_property
     def password(self):
         return self._password

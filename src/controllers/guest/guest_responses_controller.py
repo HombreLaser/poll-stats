@@ -17,6 +17,6 @@ def new(form_public_key):
         abort(404)
 
 
-@guest_responses_blueprint.post('/forms/<form_public_key>/responses/new')
+@guest_responses_blueprint.post('/forms/<form_public_key>/responses')
 def create(form_public_key):
     return 'Created'

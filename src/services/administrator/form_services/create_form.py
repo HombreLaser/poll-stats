@@ -21,7 +21,7 @@ class CreateForm(FormsServiceBase):
         self._validate()
 
         if not self._errors:
-            self._save_form()
+            return self._save_form()
 
     def create_form_from_instance(self, form_instance):
         question_forms = self._question_creation_service \
@@ -41,6 +41,8 @@ class CreateForm(FormsServiceBase):
         db.session.add(form)
         db.session.commit()
         self._question_creation_service.save_questions(form)
+
+        return form
 
     def _create_form(self):
         form = CustomForm(dict_to_multidict(name=self._submitted_form.get('name')))

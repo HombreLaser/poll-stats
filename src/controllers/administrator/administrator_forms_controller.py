@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 import sqlalchemy
 import sqlalchemy.orm as orm
 from src.lib.data_structures import RegexMultiDict
@@ -67,12 +67,14 @@ def update(form_id):
 @role_constraint('administrator')
 def create():
     form_creation_service = CreateForm(request.form)
-    form_creation_service.call()
+    form = form_creation_service.call()
 
     if form_creation_service.errors:
         return form_creation_service.errors, 422
 
-    return redirect(url_for('administrator_forms_controller.index'))
+    flash('El formulario se ha creado con éxito', 'success')
+
+    return redirect(url_for('administrator_forms_controller.edit', form_id=form.id))
 
     
 @administrator_forms_blueprint.post('/administrator/forms/<int:form_id>/publish')

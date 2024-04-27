@@ -24,6 +24,8 @@ export class Controller {
 
 	async processResponse(response) {
 		if(response.status == 200) {
+			const body = await response.text();
+			const flash_message = this.client.htmlFromResponse(body).getElementById("flash-message");
       window.location = response.url;
       return;
     }

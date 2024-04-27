@@ -1,5 +1,9 @@
 # Funciones globales para plantillas jinja
-from flask import current_app
+from flask import current_app, session
+import sqlalchemy as sa
+from src.lib.constraints import session_present
+from src.database import db
+from src.database.models import UserAccount
 import secrets
 
 
@@ -24,3 +28,15 @@ def status(form):
             return 'Recibiendo respuestas'
         case 'closed':
             return 'Cerrado'
+
+
+@current_app.template_global()
+def current_user():
+    if not session_present():
+        return
+
+    return db.session.execute(
+        sa.select(UserAccount)
+          .filter(UserAccount.id == session.get('user_id'))
+          .filter(UserAccount.role == session.get('user_role'))
+    ).scalar()
