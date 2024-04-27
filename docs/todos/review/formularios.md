@@ -20,5 +20,3 @@ Ticket relacionado: [creación de modelo de formulario](./modelo_form.md)
 - [x] Vista detalles de un formulario.
 - [x] Formulario de registro de formulario.
 - [x] Publicación de un formulario.
-- [ ] Cerrar un formulario. Dejar de tomar respuestas.
-- [ ] Procesamiento de respuestas.
