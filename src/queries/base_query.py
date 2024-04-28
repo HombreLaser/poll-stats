@@ -1,44 +1,54 @@
 from src.database import db
+import inflection
 
 
 class BaseQuery:
-    def __init__(self, params, model):
-        self.scope = None
-        self.model = model
-        self.session = db.session
-        self.params = params
+    def __init__(self, params):
+        self._scope = None
+        self._model = None
+        self._session = db.session
+        self._params = params
 
-    def search(self):
+    def search(self, model):
+        if self._params.get('search_by') is None or self._paras.get('search') is None:
+            return self
+
+        self._model = model
         search = self._perform_search()
 
         if search is not None:
-            self.scope = search
+            self._scope = search
 
         return self
 
     def order_by_param(self):
-        attribute = self._get_model_attribute(self.params.get('order_by'))
+        # Tal vez queramos ordenar en base a otro modelo. En este caso, el parámetro tendrá
+        # la forma table.attribute. Quremos conseguir la cadena attribute para hacer la query.
+        order_by_attribute = self._params.get('order_by')
+        order_by_attribute = order_by_attribute.rsplit('.')[-1] if order_by_attribute is not None else 'created_at'
+        attribute = self._get_model_attribute(order_by_attribute)
         ordered_attribute = self._order(attribute)
 
         if attribute is not None:
-            self.scope = self.scope.order_by(ordered_attribute)
+            self._scope = self._scope.order_by(ordered_attribute)
 
         return self
 
     def paginate(self):
-        return db.paginate(self.scope, **self._pagination_params())
+        return db.paginate(self._scope, **self._pagination_params())
 
     def _perform_search(self):
-        search_by = self.params.get('search_by')
-        search_term = self.params.get('search')
+        # Mismo caso, pero con búsqueda en vez de ordenamiento.
+        search_by = self._params.get('search_by').rsplit('.')[-1] # Posibles queries a joins.
+        search_term = self._params.get('search')
 
         try:
-           return self.scope.filter(getattr(self.model, search_by).like(f"%{search_term}%"))
+           return self._scope.filter(getattr(self._model, search_by).like(f"%{search_term}%"))
         except (AttributeError, TypeError):
             return None
 
     def _order(self, attribute):
-        ordering_method = self.params.get('order')
+        ordering_method = self._params.get('order')
 
         if attribute is None:
             return None
@@ -52,8 +62,8 @@ class BaseQuery:
         return getattr(attribute, 'asc')()
 
     def _pagination_params(self):
-        page = self.params.get('page')
-        per_page = self.params.get('per_page')
+        page = self._params.get('page')
+        per_page = self._params.get('per_page')
 
         try:
             page = int(page)
@@ -72,6 +82,10 @@ class BaseQuery:
 
     def _get_model_attribute(self, attribute):
         try:
-            return getattr(self.model, attribute)
+            return getattr(self._model, attribute)
         except (AttributeError, TypeError):
             return None
+
+    @property
+    def scope(self):
+        return self._scope

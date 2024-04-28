@@ -1,0 +1,12 @@
+{% extends 'views/administrator/responses/base.jinja' %}
+{% import 'macros/table.jinja' as table %}
+{% import 'macros/breadcrumb.jinja' as breadcrumb %}
+
+{% block content %}
+     <div class="container-fluid px-4 table-wrapper">
+        <h1 class="mt-4">
+            Respuestas recibidas
+        </h1>
+        {{ breadcrumb.render('Respuestas', {}) }}
+    </div>
+{% endblock %}

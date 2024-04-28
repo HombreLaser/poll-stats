@@ -6,12 +6,12 @@ from src.queries import BaseQuery
 
 class UsersQuery(BaseQuery):
     def __init__(self, params):
-        super().__init__(params, UserAccount)
+        super().__init__(params)
 
     def get_administrators(self):
-        self.scope = sqlalchemy.select(UserAccount).filter(UserAccount.role == 'administrator')
+        self._scope = sqlalchemy.select(UserAccount).filter(UserAccount.role == 'administrator')
         
-        return self.search().order_by_param().paginate()
+        return self.search(UserAccount).order_by_param().paginate()
 
 
 def get_user_by_invite_code(invite_code):
