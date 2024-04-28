@@ -91,14 +91,16 @@
     {% for question in form.questions %}
         {% if question.type == 'open' %}
             <div class="form-floating mb-3">
+                <input type="hidden" id="open[{{ loop.index }}][question]" name="open[{{ loop.index }}]" value="{{ question.content }}">
                 <input class="form-control" type="text" id="open[{{ loop.index }}]" name="open[{{ loop.index }}]"/>
                 <label for="open[{{ loop.index }}]">{{ question.content }}</label>
             </div>
         {% else %}
             <div class="form-floating mb-3">
+                <input type="hidden" id="selection[{{ loop.index }}][question]" name="selection[{{ loop.index }}]" value="{{ question.content }}" />
                 <select class="form-select form-select-md" name="selection[{{ loop.index }}]" id="selection[{{ loop.index }}]">
                     {% for option in question.options %}
-                        <option value="{{ option.score }}">{{ option.content }}</option>
+                        <option value='{"score": "{{ option.score }}", "response": "{{ option.content }}" }'>{{ option.content }}</option>
                     {% endfor %}
                 </select>
                 <label for="selection[{{ loop.index }}]">{{ question.content }}</label>
