@@ -9,6 +9,7 @@ class JoinedQueryBase(BaseQuery):
         self._base_model = base_model
         subqueries = []
         searched = False
+        filtered = False
         ordered = False
 
         for model in models_to_join:
@@ -18,6 +19,10 @@ class JoinedQueryBase(BaseQuery):
                 searched = True
                 self.search(model)
 
+            if self._query_param_refers_to_model('filter_by', model):
+                filtered = True
+                self.filter(model)
+
             if self._query_param_refers_to_model('order_by', model):
                 ordered = True
                 self.order_by_param()
@@ -25,7 +30,7 @@ class JoinedQueryBase(BaseQuery):
             subqueries.append(orm.aliased(model, self._scope.subquery(), name=inflection.underscore(model.__name__)))
 
         self._model = self._base_model
-        self._scope_to_base_model(searched, ordered, *subqueries)
+        self._scope_to_base_model(searched, ordered, filtered, *subqueries)
         self._build_query(subqueries)
 
         return self.paginate()
@@ -34,11 +39,14 @@ class JoinedQueryBase(BaseQuery):
         for subquery in subqueries:
             self._scope = self._scope.join(subquery)
 
-    def _scope_to_base_model(self, searched, ordered, *subqueries):
+    def _scope_to_base_model(self, searched, ordered, filtered, *subqueries):
         self._scope = sa.select(self._base_model, *subqueries)
 
         if not searched:
             self.search(self._base_model)
+
+        if not filtered:
+            self.filter(self._base_model)
 
         if not ordered:
             self.order_by_param()

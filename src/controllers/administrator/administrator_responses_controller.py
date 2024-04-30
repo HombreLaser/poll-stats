@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, session
 from src.lib import role_constraint
 from src.queries.shared import ResponsesQuery
 
@@ -11,9 +11,9 @@ templates_context = 'views/administrator/responses'
 @administrator_responses_blueprint.get('/administrator/responses')
 @role_constraint('administrator')
 def index():
-    responses = ResponsesQuery({'order_by': 'created_at', 'order': 'desc' }).get_responses()
+    responses = ResponsesQuery(request.args, session.get('user_id')).get_responses()
 
-    return render_template(f"{templates_context}/index.jinja")
+    return render_template(f"{templates_context}/index.jinja", responses=responses)
 
 
 @administrator_responses_blueprint.get('/administrator/responses/<int:response_id>')

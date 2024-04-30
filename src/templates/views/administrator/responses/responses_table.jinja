@@ -1,0 +1,15 @@
+{% for response in page %}
+    <tr>
+        <td>
+            {{ response.created_at }}
+        </td>
+        <td>
+            {{ response.form.name }}
+        </td>
+        <td>
+            <a class="btn btn-sm btn-primary" href="#">
+                Ver
+            </a>
+        </td>
+    </tr>
+{% endfor %}

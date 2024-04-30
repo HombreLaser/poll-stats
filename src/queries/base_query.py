@@ -10,7 +10,7 @@ class BaseQuery:
         self._params = params
 
     def search(self, model):
-        if self._params.get('search_by') is None or self._paras.get('search') is None:
+        if self._params.get('search_by') is None or self._params.get('search') is None:
             return self
 
         self._model = model
@@ -33,6 +33,14 @@ class BaseQuery:
             self._scope = self._scope.order_by(ordered_attribute)
 
         return self
+
+    def filter(self, model):
+        filter_by = self._params.get('filter_by').split('.')[-1]
+        filter_param = self._params.get('filter')
+        self._scope = self._scope.filter(getattr(model, filter_by) == filter_param)
+
+        return self
+
 
     def paginate(self):
         return db.paginate(self._scope, **self._pagination_params())

@@ -1,6 +1,7 @@
 import sqlalchemy
+import sqlalchemy.orm as orm
 from src.database import db
-from src.database.models import Form
+from src.database.models import Form, Question
 from src.queries import BaseQuery
 
 
@@ -16,7 +17,11 @@ class FormsQuery(BaseQuery):
 
 
 def get_form_by_public_key(public_key: str):
-    query = sqlalchemy.select(Form).filter(Form.status == 'open') \
-                                   .filter(Form.public_key == public_key)
+    query = (
+        sqlalchemy.select(Form)
+                  .options(orm.joinedload(Form.questions).joinedload(Question.options))
+                  .filter(Form.status == 'open')
+                  .filter(Form.public_key == public_key)
+    )
                                 
     return db.session.execute(query).scalar()
