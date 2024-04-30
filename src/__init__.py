@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect, url_for
 from flask_wtf.csrf import CSRFProtect
 import sqlalchemy
 import tomllib
@@ -18,6 +18,9 @@ def create_app():
     database.init_db(app)
     initialize_blueprints(app)
     csrf.init_app(app)
+
+    with app.app_context():
+        from src import template_globals
 
     return app
 
@@ -44,7 +47,8 @@ def load_config(app):
             SQLALCHEMY_DATABASE_URI = connection_string(config, app),
             SECRET_KEY = config['flask']['SECRET_KEY'],
             APPLICATION_ROOT = config['flask']['APPLICATION_ROOT'],
-            SESSION_COOKIE_PATH = '/'
+            SESSION_COOKIE_PATH = '/',
+            SQLALCHEMY_ECHO = True
         )
 
 
@@ -59,6 +63,11 @@ def connection_string(config, app):
 
 
 app = create_app()
+
+
+@app.get('/')
+def index():
+    return redirect(url_for('sessions_controller.new'))
 
 
 @app.shell_context_processor

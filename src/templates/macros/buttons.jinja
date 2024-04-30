@@ -1,0 +1,9 @@
+{% macro delete_button(button_text, button_id, class_='remove-question', render_icon=True) %}
+    <button id="{{ random_hex() }}" class="btn btn-danger {{ class_ }}">
+        {% if render_icon %}
+            <i class="bi bi-trash-fill" style="font-size: 1.2rem"></i>
+        {% endif %}
+
+        {{ button_text }}
+    </button>
+{% endmacro %}

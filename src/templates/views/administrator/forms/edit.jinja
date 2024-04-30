@@ -1,0 +1,32 @@
+{% extends 'views/administrator/forms/base.jinja' %}
+{% import 'macros/custom_form.jinja' as custom_form %}
+{% import 'macros/breadcrumb.jinja' as breadcrumb %}
+
+{% block content %}
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Editar formulario</h1>
+        <h2 class="mt-4 mb-3">{{ form.name.data }}</h2>
+        {{ breadcrumb.render('Editar formulario', { url_for('administrator_forms_controller.index'): 'Formularios' }) }}
+
+        <div id="form-container" class="row justify-content-start w-50 mb-3">
+            <form id="form-registration" action="{{ url_for('administrator_forms_controller.update', form_id=form_id) }}"
+                                            method="POST"
+                                            novalidate>
+                
+                <div class="mb-3">
+                    <button class="btn btn-primary" id="publish-button" type="button">Publicar</button>
+                </div>
+
+                {{ custom_form.render(form) }}
+
+                <input type="submit" id="submit-button" class="btn btn-success ml-6" value="Enviar"/>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { edit_main } from "{{ url_for('static', filename='js/form_registration/main.js', _external=True) }}";
+
+        edit_main("{{ url_for('fields_controller.index', _external=True) }}");
+    </script>
+{% endblock %}

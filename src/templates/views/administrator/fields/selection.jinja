@@ -1,0 +1,26 @@
+{% import 'macros/buttons.jinja' as buttons %}
+
+<div class="selection">
+    <div class="form-floating mb-3">
+        {{ form.content(class_='content-field') }}
+        {{ form.content.label }}
+    </div>
+
+    <div class="form-floating mb-3">
+        {{ form.type(class_='form-select') }}
+        {{ form.type.label }}
+    </div>
+
+    <div class="options-container ml-6">
+
+    </div>
+
+    <div class="mb-3">
+        <button id="{{ button_id }}" class="btn btn-primary add-option mr-3">
+            <i class="bi bi-plus" style="font-size: 1.2rem"></i>
+            Agregar opción
+        </button>
+
+        {{ buttons.delete_button('Borrar pregunta', button_id) }}
+    </div>
+</div>

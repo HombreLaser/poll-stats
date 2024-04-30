@@ -17,7 +17,7 @@ class BaseQuery:
         return self
 
     def order_by_param(self):
-        attribute = self._call_model_attribute(self.params.get('order_by'))
+        attribute = self._get_model_attribute(self.params.get('order_by'))
         ordered_attribute = self._order(attribute)
 
         if attribute is not None:
@@ -27,7 +27,6 @@ class BaseQuery:
 
     def paginate(self):
         return db.paginate(self.scope, **self._pagination_params())
-
 
     def _perform_search(self):
         search_by = self.params.get('search_by')
@@ -71,7 +70,7 @@ class BaseQuery:
             'per_page': per_page
         }
 
-    def _call_model_attribute(self, attribute):
+    def _get_model_attribute(self, attribute):
         try:
             return getattr(self.model, attribute)
         except (AttributeError, TypeError):

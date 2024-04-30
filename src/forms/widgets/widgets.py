@@ -1,4 +1,5 @@
 import wtforms.widgets as wtforms_widgets
+import secrets
 
 
 class AttrSetter:
@@ -31,3 +32,10 @@ class CheckboxInputWidget(AttrSetter, wtforms_widgets.CheckboxInput):
 
     def _attrs(self, **kwargs):
         return super()._attrs({ 'class': 'form-check-input' })
+
+    
+class VariableIdSelectWidget(wtforms_widgets.Select):
+    def __call__(self, field, **kwargs):
+        field.id = f"a{secrets.token_hex(4)}"
+
+        return super().__call__(field, **kwargs)
