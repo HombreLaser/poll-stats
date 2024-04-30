@@ -22,7 +22,9 @@ def create():
     form = Login().__call__(LoginForm())
 
     if form.validate() and not form.form_errors:
-        return redirect(url_for(f"{session.get('user_role')}_dashboards_controller.index"))
+        return redirect(url_for(
+            f"{session.get('user_role')}_dashboards_controller.index")
+        )
     else:
         return render_template('views/guest/sessions/new.jinja', form=form)
 
