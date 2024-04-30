@@ -1,0 +1,22 @@
+{% macro render(response) %}
+    {% for data in response.data %}
+	<div class="row justify-content-start w-50 mb-3">
+	    <div class="card">
+		<div class="card-body">
+		    <h5 class="card-title">
+			Pregunta {{ loop.index }}
+		    </h5>
+		    <h6 class="card-subtitle mb-2 text-body-secondary">
+			{{ data['question'] }}
+		    </h6>
+		    {% if data['type'] == 'open' %}
+			<p class="card-text"> {{ data['response'] }}</p>
+		    {% else %}
+			<p class="card-text"> {{ data['response']['response'] }}</p>
+			<p class="card-text">Puntaje: {{ score_to_text(data['response']['score']) }}</p>
+		    {% endif %}
+		</div>
+	    </div>
+	</div>
+    {% endfor %}
+{% endmacro %}

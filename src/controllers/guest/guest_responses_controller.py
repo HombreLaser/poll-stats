@@ -19,8 +19,7 @@ def new(form_public_key):
     
     csrf_token = CustomForm(name=form.name).csrf_token
     
-    return render_template(f"{templates_context}/new.jinja", form=form, csrf_token=csrf_token)
-  
+    return render_template(f"{templates_context}/new.jinja", form=form, csrf_token=csrf_token)  
 
 
 @guest_responses_blueprint.post('/forms/<form_public_key>/responses')

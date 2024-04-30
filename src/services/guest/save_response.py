@@ -20,7 +20,7 @@ class SaveResponse:
         responses = []
 
         for key in keys:
-            response = { 'question': self._form_response.getlist(key)[0] }
+            response = { 'question': self._form_response.getlist(key)[0], 'type': key }
 
             if 'selection' in key:
                 response['response'] = json.loads(self._form_response.getlist(key)[1])
