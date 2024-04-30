@@ -27,13 +27,15 @@ class JoinedQueryBase(BaseQuery):
                 ordered = True
                 self.order_by_param()
 
-            subqueries.append(orm.aliased(model, self._scope.subquery(), name=inflection.underscore(model.__name__)))
+            subqueries.append(orm.aliased(model, self._scope.subquery(),
+                                          name=inflection.underscore(
+                                              model.__name__)))
 
         self._model = self._base_model
         self._scope_to_base_model(searched, ordered, filtered, *subqueries)
         self._build_query(subqueries)
 
-        return self.paginate()
+        return self
 
     def _build_query(self, subqueries: list):
         for subquery in subqueries:
@@ -50,9 +52,11 @@ class JoinedQueryBase(BaseQuery):
 
         if not ordered:
             self.order_by_param()
-    
+
     def _query_param_refers_to_model(self, query_param, model):
         if self._params.get(query_param) is None:
             return False
 
-        return inflection.underscore(model.__name__) in self._params.get(query_param).split('.')
+        return inflection.underscore(model.__name__) in self._params \
+                                                            .get(query_param) \
+                                                            .split('.')
