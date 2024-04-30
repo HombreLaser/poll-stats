@@ -21,9 +21,10 @@ class BaseQuery:
 
         return self
 
-    def order_by_param(self):
+    def order_by_param(self, model):
         # Tal vez queramos ordenar en base a otro modelo. En este caso, el parámetro tendrá
         # la forma table.attribute. Quremos conseguir la cadena attribute para hacer la query.
+        self._model = model
         order_by_attribute = self._params.get('order_by')
         order_by_attribute = order_by_attribute.rsplit('.')[-1] if order_by_attribute is not None else 'created_at'
         attribute = self._get_model_attribute(order_by_attribute)
