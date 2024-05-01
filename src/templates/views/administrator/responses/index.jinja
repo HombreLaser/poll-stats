@@ -11,7 +11,7 @@
 
         {{ table.render_table('Respuestas recibidas', responses, 'administrator_responses_controller.index',
                               'views/administrator/responses/responses_table.jinja',
-                              { 'created_at': 'Fecha de creación', 'form.name': 'Nombre del formulario' },
+                              { 'created_at': 'Fecha de creación', 'forms.name': 'Nombre del formulario' },
                                 'Creado', 'Nombre del formulario', 'Opciones') }}
     </div>
 {% endblock %}

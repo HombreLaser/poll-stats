@@ -10,14 +10,11 @@ class BaseQuery:
         self._params = params
 
     def search(self, model):
-        if self._params.get('search_by') is None or self._params.get('search') is None:
+        if not self._should_search():
             return self
 
         self._model = model
-        search = self._perform_search()
-
-        if search is not None:
-            self._scope = search
+        self._perform_search()
 
         return self
 
@@ -35,24 +32,16 @@ class BaseQuery:
 
         return self
 
-    def filter(self, model):
-        filter_by = self._params.get('filter_by').split('.')[-1]
-        filter_param = self._params.get('filter')
-        self._scope = self._scope.filter(getattr(model, filter_by) == filter_param)
-
-        return self
-
-
     def paginate(self):
         return db.paginate(self._scope, **self._pagination_params())
 
     def _perform_search(self):
         # Mismo caso, pero con búsqueda en vez de ordenamiento.
-        search_by = self._params.get('search_by').rsplit('.')[-1] # Posibles queries a joins.
-        search_term = self._params.get('search')
+        search_by = self._params.get('search_by').rsplit('.')[-1]  # Posibles queries a joins.
+        search_term = self._params.get('search').lstrip(' ').rstrip(' ')
 
         try:
-           return self._scope.filter(getattr(self._model, search_by).like(f"%{search_term}%"))
+            self._scope = self._scope.filter(getattr(self._model, search_by).like(f"%{search_term}%"))
         except (AttributeError, TypeError):
             return None
 
@@ -66,8 +55,8 @@ class BaseQuery:
             try:
                 return getattr(attribute, ordering_method)()
             except AttributeError:
-                return getattr(attribute, 'asc')()  
-        
+                return getattr(attribute, 'asc')()
+
         return getattr(attribute, 'asc')()
 
     def _pagination_params(self):
@@ -94,6 +83,15 @@ class BaseQuery:
             return getattr(self._model, attribute)
         except (AttributeError, TypeError):
             return None
+
+    def _should_search(self):
+        search_by = self._params.get('search_by')
+        search = self._params.get('search')
+
+        return (
+            search_by is not None and search_by != ''
+            or search is not None and search != ''
+        )
 
     @property
     def scope(self):

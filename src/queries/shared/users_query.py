@@ -9,9 +9,10 @@ class UsersQuery(BaseQuery):
         super().__init__(params)
 
     def get_administrators(self):
-        self._scope = sqlalchemy.select(UserAccount).filter(UserAccount.role == 'administrator')
-        
-        return self.search(UserAccount).order_by_param().paginate()
+        self._scope = sqlalchemy.select(UserAccount) \
+                                .filter(UserAccount.role == 'administrator')
+
+        return self.search(UserAccount).order_by_param(UserAccount).paginate()
 
 
 def get_user_by_invite_code(invite_code):
