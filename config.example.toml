@@ -2,4 +2,6 @@
 user = 'tu_usuario'
 password = 'tu_contraseña'
 
+[flask]
+APPLICATION_ROOT = "http://localhost:5000"
 SECRET_KEY = "texto_muy_largo"
