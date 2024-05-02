@@ -24,3 +24,11 @@ def get_form_by_public_key(public_key: str):
     )
 
     return db.session.execute(query).scalar()
+
+
+def preloaded_form():
+    return sqlalchemy.select(Form) \
+                     .options(
+                         orm.joinedload(
+                             Form.questions
+                         ).joinedload(Question.options))

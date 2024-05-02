@@ -1,7 +1,8 @@
-from flask import Blueprint, request, render_template
+from flask import Blueprint, request, render_template, flash, redirect, url_for
 import sqlalchemy
 import sqlalchemy.orm as orm
-from src.queries.shared import FormsQuery
+from src.database import db
+from src.queries.shared import FormsQuery, preloaded_form
 from src.database.models import Form
 from src.lib.constraints import role_constraint
 
@@ -18,3 +19,17 @@ def index():
     forms = query.get_forms(scope)
 
     return render_template(f"{templates_context}/index.jinja", forms=forms)
+
+
+@master_forms_blueprint.get('/master/forms/<int:form_id>')
+@role_constraint('master')
+def show(form_id):
+    form = db.session.execute(preloaded_form().filter(Form.id == form_id)) \
+                     .scalar()
+
+    if form is None:
+        flash('No se encontró el formulario al que desea acceder', 'error')
+
+        return redirect(url_for('master_forms_controller.index'))
+
+    return render_template(f"{templates_context}/show.jinja", form=form)
