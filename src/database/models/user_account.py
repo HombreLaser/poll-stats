@@ -19,7 +19,7 @@ class UserAccount(db.Model):
     activated: Mapped[str] = mapped_column(sqlalchemy.Boolean, default=False)
     # Nullable porque será definido por el usuario cuando acceda a la invitación.
     _password = mapped_column('password', sqlalchemy.String(512), nullable=True)
-    forms = relationship('Form', back_populates='author')
+    forms = relationship('Form', back_populates='author', lazy='select')
     created_at = mapped_column(sqlalchemy.DateTime)
     updated_at = mapped_column(sqlalchemy.DateTime)
 

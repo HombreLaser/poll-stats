@@ -1,0 +1,23 @@
+{% import 'macros/modal.jinja' as modal %}
+
+{% for form in page %}
+    <tr>
+	<td>
+	    {{ form.created_at }}
+	</td>
+	<td>
+	    {{ form.name }}
+	</td>
+	<td>
+	    {{ form.author.full_name }}
+	</td>
+	<td>
+	    {{ status(form) }}
+	</td>
+	<td>
+            <a class="btn btn-sm btn-primary" href="{{ url_for('master_forms_controller.show', form_id=form.id) }}">
+                Ver
+            </a>
+	</td>
+    </tr>
+{% endfor %}

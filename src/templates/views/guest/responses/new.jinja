@@ -9,7 +9,7 @@
 
 {% block form %}
     <form action="{{ url_for('guest_responses_controller.create', form_public_key=form.public_key) }}" method="post" novalidate>
-        {{ form.csrf_token }}
+        {{ csrf_token }}
         {{ form_renderer.render_guest_form(form) }}
 
         <div class="d-flex justify-content-end mt-4 mb-0">

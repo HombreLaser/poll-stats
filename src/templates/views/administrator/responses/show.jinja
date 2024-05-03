@@ -1,0 +1,13 @@
+{% extends 'views/administrator/responses/base.jinja' %}
+{% import 'macros/response_details.jinja' as response_details %}
+{% import 'macros/breadcrumb.jinja' as breadcrumb %}
+
+{% block content %}
+    <div class="container-fluid px-4">
+	<h1 class="mt-4">Respuesta</h1>
+	<h2 class="mt-4 mb-3">{{ response.form.name }}</h2>
+	{{ breadcrumb.render('Editar formulario', { url_for('administrator_responses_controller.index'): 'Respuestas' }) }}
+
+	{{ response_details.render(response) }}
+    </div>
+{% endblock %}

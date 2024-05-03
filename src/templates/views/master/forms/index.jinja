@@ -1,0 +1,17 @@
+{% extends 'views/master/forms/base.jinja' %}
+{% import 'macros/table.jinja' as table %}
+{% import 'macros/breadcrumb.jinja' as breadcrumb %}
+
+{% block content %}
+    <div class="container-fluid px-4 table-wrapper">
+	<h1 class="mt-4">
+	    Formularios registrados
+	</h1>
+	{{ breadcrumb.render('Formularios', {}) }}
+
+	{{ table.render_table('Formularios registrados', forms, 'master_forms_controller.index',
+	    'views/master/forms/forms_table.jinja',
+	    {'name': 'Nombre', 'created_at': 'Fecha de creación','user_accounts.name': 'Autor'},
+	    'Creado', 'Nombre', 'Autor', 'Estado', 'Detalles') }}
+    </div>
+{% endblock %}

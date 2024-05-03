@@ -2,3 +2,4 @@
 import src.controllers.administrator.administrator_dashboards_controller
 import src.controllers.administrator.administrator_forms_controller
 import src.controllers.administrator.fields_controller
+import src.controllers.administrator.administrator_responses_controller

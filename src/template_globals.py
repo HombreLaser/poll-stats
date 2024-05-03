@@ -20,6 +20,20 @@ def field_class(field_type, form):
         return field_type
 
 @current_app.template_global()
+def score_to_text(score: float):
+    if score == 0:
+        return 'Nulo'
+
+    if score == 0.3:
+        return 'Bajo'
+
+    if score == 0.6:
+        return 'Medio'
+
+    return 'Alto'
+
+
+@current_app.template_global()
 def status(form):
      match form.status:
         case 'review':

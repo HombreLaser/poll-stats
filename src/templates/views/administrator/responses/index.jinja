@@ -1,0 +1,17 @@
+{% extends 'views/administrator/responses/base.jinja' %}
+{% import 'macros/table.jinja' as table %}
+{% import 'macros/breadcrumb.jinja' as breadcrumb %}
+
+{% block content %}
+     <div class="container-fluid px-4 table-wrapper">
+        <h1 class="mt-4">
+            Respuestas recibidas
+        </h1>
+        {{ breadcrumb.render('Respuestas', {}) }}
+
+        {{ table.render_table('Respuestas recibidas', responses, 'administrator_responses_controller.index',
+                              'views/administrator/responses/responses_table.jinja',
+                              { 'created_at': 'Fecha de creación', 'forms.name': 'Nombre del formulario' },
+                                'Creado', 'Nombre del formulario', 'Opciones') }}
+    </div>
+{% endblock %}

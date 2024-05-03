@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 import sqlalchemy
 import sqlalchemy.orm as orm
-from src.lib.data_structures import RegexMultiDict
 from src.lib.constraints import role_constraint
 from src.database.models import Form, Question
 from src.database import db
@@ -10,15 +9,18 @@ from src.services.administrator.form_services import CreateForm, UpdateForm
 from src.queries.shared import FormsQuery
 
 
-administrator_forms_blueprint = Blueprint('administrator_forms_controller', __name__)
+administrator_forms_blueprint = Blueprint('administrator_forms_controller',
+                                          __name__)
 templates_context = 'views/administrator/forms'
 
 
 @administrator_forms_blueprint.get('/administrator/forms')
 @role_constraint('administrator')
 def index():
-    query = FormsQuery(request.args, session.get('user_id'))
-    forms = query.get_forms()
+    scope = sqlalchemy.select(Form) \
+                      .filter(Form.user_account_id == session.get('user_id'))
+    query = FormsQuery(request.args)
+    forms = query.get_forms(scope)
 
     return render_template(f"{templates_context}/index.jinja", forms=forms)
 

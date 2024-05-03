@@ -38,6 +38,16 @@ entity "Question" as question {
 	updated_at: date
 }
 
+entity "Option" as option {
+	*id : int
+	--
+	*question_id : FK
+	*content : str
+	*score : float
+	created_at : date
+	updated_at : date
+}
+
 entity "Response" as response {
 	*id : int
 	--
@@ -70,6 +80,7 @@ entity "Invitation" as invitation {
 
 response }o..|| form
 question }|--|| form
+option }|--|| question
 form }o..|| user
 export }o..|| user
 invitation  ||--o| user
