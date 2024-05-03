@@ -65,6 +65,7 @@ def connection_string(config, app):
 app = create_app()
 
 
+# Direcciones root.
 @app.get('/')
 def index():
     return redirect(url_for('sessions_controller.new'))

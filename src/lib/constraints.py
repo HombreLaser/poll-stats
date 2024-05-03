@@ -10,7 +10,7 @@ def role_constraint(role):
                 return function(*args, **kwargs)
 
             return redirect(url_for('sessions_controller.new'))
-        
+
         return decorated_view
 
     return constraint
