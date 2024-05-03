@@ -10,3 +10,6 @@ lanzará una petición POST que incluirá un JSON con los datos de las respuesta
 
 Cuando un administrador decida dejar de recibir respuestas para un formulario particular, se mostrará una pantalla que informará
 al usuario de que ya no se admiten más respuestas.
+
+- [ ] Cerrar un formulario. Dejar de tomar respuestas.
+- [ ] Procesamiento de respuestas.

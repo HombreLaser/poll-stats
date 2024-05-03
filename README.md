@@ -18,6 +18,8 @@ En la raíz del proyecto, copia `config.example.toml` y renómbralo a `config.to
 user = 'tu_usuario'
 password = 'tu_contraseña'
 
+[flask]
+APPLICATION_ROOT = "http://localhost:5000"
 SECRET_KEY = "texto_muy_largo"
 ```
 
@@ -26,6 +28,7 @@ En user, escribe tu usuario de mysql/mariadb, en password tu contraseña. Para e
 `python -c "import secrets; print(secrets.token_hex(32))"`
 
 Copia y asigna el texto generado a SECRET_KEY.
+Deja APPLICATION_ROOT sin cambiar.
 
 # Ejecutando el proyecto
 
