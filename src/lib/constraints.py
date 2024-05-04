@@ -2,11 +2,11 @@ from functools import wraps
 from flask import session, redirect, url_for
 
 
-def role_constraint(role):
+def role_constraint(*roles):
     def constraint(function):
         @wraps(function)
         def decorated_view(*args, **kwargs):
-            if session_present() and session.get('user_role') == role:
+            if session_present() and session.get('user_role') in roles:
                 return function(*args, **kwargs)
 
             return redirect(url_for('sessions_controller.new'))
