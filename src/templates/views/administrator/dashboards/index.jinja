@@ -49,7 +49,11 @@ Administrator dashboard
 
      main("{{ url_for('responses_count_controller.index') }}");
     </script>
-    <script src={{ url_for('static', filename='assets/demo/chart-bar-demo.js') }}></script>
+    <script type="module">
+     import { main } from "{{ url_for('static', filename='js/year_responses_chart.js') }}";
+
+     main("{{ url_for('responses_count_controller.index') }}");
+    </script>
     <script src="{{ url_for('static', filename='vendor/simple-datatables.min.js') }}"></script>
     <script src={{ url_for('static', filename='js/datatables-simple-demo.js') }}></script>
 {% endblock %}

@@ -3,65 +3,61 @@ Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSyste
 Chart.defaults.global.defaultFontColor = '#292b2c';
 
 export function main(endpoint) {
-    const translated_days = {
-	Mon: 'Lunes',
-	Tue: 'Martes',
-	Wed: 'Miércoles',
-	Thu: 'Jueves',
-	Fri: 'Viernes',
-	Sat: 'Sábado',
-	Sun: 'Domingo'
+    const translated_months = {
+	Jan: "Enero",
+	Feb: "Febrero",
+	Mar: "Marzo",
+	Apr: "Abril",
+	May: "Mayo",
+	Jun: "Junio",
+	Jul: "Julio",
+	Aug: "Agosto",
+	Sep: "Septiembre",
+	Oct: "Octubre",
+	Nov: "Noviembre",
+	Dec: "Diciembre"
     };
-    
+
     get_counts(endpoint).then((counts) => {
-	const labels = Object.keys(counts).map((day) => translated_days[day]);
-	
+	const labels = Object.keys(counts).map((month) => translated_months[month]);
 	draw(labels, Object.values(counts));
     });
 }
 
 async function get_counts(endpoint) {
-    const response = await fetch(`${endpoint}?type=weekly`, {
-        method: "GET",
-        mode: "same-origin",
-        credentials: "same-origin"
+    const response = await fetch(`${endpoint}?type=yearly`, {
+	mehtod: "GET",
+	mode: "same-origin",
+	credentials: "same-origin"
     });
 
     return response.json();
 }
 
 function draw(labels, data) {
-    var ctx = document.getElementById("myAreaChart");
+    var ctx = document.getElementById("myBarChart");
     var myLineChart = new Chart(ctx, {
-	type: 'line',
+	type: 'bar',
 	data: {
 	    labels: labels,
 	    datasets: [{
-		label: "Respuestas",
-		lineTension: 0.3,
-		backgroundColor: "rgba(2,117,216,0.2)",
+		label: "Revenue",
+		backgroundColor: "rgba(2,117,216,1)",
 		borderColor: "rgba(2,117,216,1)",
-		pointRadius: 5,
-		pointBackgroundColor: "rgba(2,117,216,1)",
-		pointBorderColor: "rgba(255,255,255,0.8)",
-		pointHoverRadius: 5,
-		pointHoverBackgroundColor: "rgba(2,117,216,1)",
-		pointHitRadius: 50,
-		pointBorderWidth: 2,
-		data: data,
+		data: data
 	    }],
 	},
 	options: {
 	    scales: {
 		xAxes: [{
 		    time: {
-			unit: 'date'
+			unit: 'month'
 		    },
 		    gridLines: {
 			display: false
 		    },
 		    ticks: {
-			maxTicksLimit: 7
+			maxTicksLimit: 6
 		    }
 		}],
 		yAxes: [{
@@ -71,7 +67,7 @@ function draw(labels, data) {
 			maxTicksLimit: 5
 		    },
 		    gridLines: {
-			color: "rgba(0, 0, 0, .125)",
+			display: true
 		    }
 		}],
 	    },
@@ -81,4 +77,3 @@ function draw(labels, data) {
 	}
     });
 }
-    

@@ -37,6 +37,12 @@ class ResponseTimelapseQuery(ABC):
 
         return db.session.execute(query).scalar()
 
+    def _set_previous_dates(self, limit):
+        self._dates = []
+
+        for index in reversed(range(1, limit)):
+            self._dates.append(datetime.now() - self._timedelta(index=index))
+
     def _scope(self, query):
         if self._user_role == 'administrator':
             return query.join(Response.form).filter(
@@ -45,29 +51,37 @@ class ResponseTimelapseQuery(ABC):
         return query
 
     @abstractmethod
-    def _timedelta(self):
+    def _timedelta(self, index=1):
         return timedelta()
+
+    @abstractmethod
+    def results(self):
+        return {}
 
 
 class ResponsesOfTheYear(ResponseTimelapseQuery):
-    pass
+    def results(self):
+        counts = {}
+        self._set_previous_dates(7)
+
+        for date in self._dates:
+            counts[date.strftime('%b')] = self._responses_made(date)
+
+        return counts
+    
+    def _timedelta(self, index=1):
+        return timedelta(weeks=4 * index)
 
 
 class ResponsesOfTheWeek(ResponseTimelapseQuery):
-    def responses_count_by_day(self):
+    def results(self):
         counts = {}
-        self._set_previous_seven_days()
+        self._set_previous_dates(8)
 
         for date in self._dates:
             counts[date.strftime('%a')] = self._responses_made(date)
 
         return counts
 
-    def _timedelta(self):
-        return timedelta(days=1)
-
-    def _set_previous_seven_days(self):
-        self._dates = []
-
-        for weekday in reversed(range(1, 8)):
-            self._dates.append(datetime.now() - timedelta(days=weekday))
+    def _timedelta(self, index=1):
+        return timedelta(days=index)

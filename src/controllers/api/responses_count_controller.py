@@ -1,5 +1,5 @@
 from flask import Blueprint, request, session
-from src.queries.shared.responses_query import ResponsesOfTheWeek
+from src.queries.shared.responses_query import ResponsesOfTheWeek, ResponsesOfTheYear
 from src.lib.constraints import role_constraint
 
 
@@ -11,6 +11,9 @@ responses_count_blueprint = Blueprint('responses_count_controller', __name__)
 def index():
     type = request.args.get('type')
 
-    query = ResponsesOfTheWeek(session)
+    if type == 'weekly':
+        query = ResponsesOfTheWeek(session)
+    else:
+        query = ResponsesOfTheYear(session)
 
-    return query.responses_count_by_day()
+    return query.results()
