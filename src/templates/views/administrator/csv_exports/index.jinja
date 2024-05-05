@@ -1,0 +1,16 @@
+{% extends 'views/administrator/csv_exports/base.jinja' %}
+{% import 'macros/table.jinja' as table %}
+{% import 'macros/breadcrumb.jinja' as breadcrumb %}
+
+{% block content %}
+    <div class="container-fluid px-4 table-wrapper">
+	<h1 class="mt-4">
+	    Exportaciones en CSV
+	</h1>
+	{{ breadcrumb.render('Exportaciones', {}) }}
+
+	{{ table.render_table('Exportaciones', exports, 'csv_exports_controller.index',
+	    'views/administrator/forms/forms_table.jinja',
+	    {'created_at': 'Fecha de creación'}, 'Creado', 'Estado', 'Archivo') }}
+    </div>
+{% endblock %}

@@ -24,7 +24,7 @@ class Question(db.Model):
     # [{ 'content': 'respuesta', 'score': 'ponderación' }]
     options = relationship('Option', back_populates='question', lazy='select',
                                      cascade='save-update,merge,delete,delete-orphan')
-    form: Mapped[Form] = relationship('Form', back_populates='questions') 
+    form: Mapped[Form] = relationship('Form', back_populates='questions')
     required: Mapped[bool] = mapped_column(sqlalchemy.Boolean, default=False)
     created_at = mapped_column(sqlalchemy.DateTime)
     updated_at = mapped_column(sqlalchemy.DateTime)
