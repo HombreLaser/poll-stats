@@ -1,6 +1,8 @@
+
 from flask import Blueprint, session, request, render_template
 import sqlalchemy as sa
 from src.database.models import Export
+from src.forms import CSVExportForm, choices
 from src.database import db
 from src.queries.administrator import ExportsQuery
 from src.lib.constraints import role_constraint
@@ -14,12 +16,15 @@ templates_context = f"views/administrator/csv_exports"
 @role_constraint('administrator')
 def index():
     query = ExportsQuery(request.args, session.get('user_id'))
+    form = CSVExportForm()
+    form.form_id.query = choices(session.get('user_id'))
 
     return render_template(f"{templates_context}/index.jinja",
-                           exports=query.get_exports())
+                           exports=query.get_exports(),
+                           form=form)
 
 
 @csv_exports_blueprint.post('/administrator/exports/csv')
 @role_constraint('administrator')
 def create():
-    pass
+    form_id = int(request.form.get('form_id'))

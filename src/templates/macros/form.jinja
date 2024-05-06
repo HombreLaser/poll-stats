@@ -1,4 +1,4 @@
-{% macro render_field(field) %}    
+{% macro render_field(field, render_label=True) %}    
     {% if field.errors %}
         {{ field(class_='is-invalid', required=False) }}
         <ul class="no-bullets text-danger mt-2">
@@ -9,7 +9,9 @@
     {% else %}
         {{ field }}
     {% endif %}
-    {{ field.label }}
+    {% if render_label %}
+	{{ field.label }}
+    {% endif %}
 {% endmacro %}
 
 {% macro submit_button(value) %}

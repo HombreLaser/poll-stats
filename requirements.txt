@@ -26,3 +26,4 @@ inflection==0.5.1
 numpy==1.26.4
 fasteners==0.19
 sqlalchemy-file==0.6.0 
+ WTForms-SQLAlchemy==0.4.1 
