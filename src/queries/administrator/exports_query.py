@@ -8,9 +8,9 @@ class ExportsQuery(BaseQuery):
         super().__init__(params)
         self._user_id = user_id
 
-    def get_exports(self):
+    def get_exports(self, type):
         self._scope = sqlalchemy.select(Export) \
                                 .filter(Export.owner_id == self._user_id) \
-                                .filter(Export.type == 'csv')
+                                .filter(Export.type == type)
 
         return self.search(Export).order_by_param(Export).paginate()
