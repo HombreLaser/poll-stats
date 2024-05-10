@@ -1,5 +1,7 @@
-from flask import Blueprint, session, request, render_template
+from flask import Blueprint, session, request, render_template, redirect, \
+    url_for
 from src.forms import CSVExportForm
+from src.services.administrator.exporters import begin_export_to_sqlite
 from src.queries.administrator import ExportsQuery
 from src.lib.constraints import role_constraint
 
@@ -21,4 +23,6 @@ def index():
 @sqlite_exports_blueprint.post('/administrator/exports/sqlite')
 @role_constraint('administrator')
 def create():
-    return 'Created'
+    begin_export_to_sqlite(session.get('user_id'))
+
+    return redirect(url_for('sqlite_exports_controller.index'))

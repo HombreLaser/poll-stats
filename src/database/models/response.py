@@ -9,7 +9,8 @@ class Response(db.Model):
 
     id = mapped_column(sqlalchemy.BigInteger, primary_key=True)
     form_id = mapped_column(sqlalchemy.ForeignKey('forms.id'), index=True)
-    data: Mapped[list[dict[str, any]]] = mapped_column(sqlalchemy.JSON, nullable=False)
+    data: Mapped[list[dict[str, any]]] = mapped_column(sqlalchemy.JSON,
+                                                       nullable=False)
     form: Mapped[Form] = relationship('Form', back_populates='responses')
     created_at = mapped_column(sqlalchemy.DateTime)
     updated_at = mapped_column(sqlalchemy.DateTime)
