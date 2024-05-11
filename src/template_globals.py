@@ -45,6 +45,17 @@ def status(form):
 
 
 @current_app.template_global()
+def export_status(export):
+    match export.status:
+        case 'pending':
+            return 'Pendiente'
+        case 'in_process':
+            return 'En proceso'
+        case 'done':
+            return 'Listo'
+
+
+@current_app.template_global()
 def current_user():
     if not session_present():
         return

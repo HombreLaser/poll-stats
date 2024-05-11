@@ -2,6 +2,7 @@ import sqlalchemy as sa
 import sqlalchemy.orm as orm
 import secrets
 import sqlite3
+from pathlib import Path
 from src.database.models import Export, Form, Response
 from src.database import db
 
@@ -9,7 +10,10 @@ from src.database import db
 class SQLiteExporter:
     def __init__(self, export_id: int):
         self._export = db.session.get(Export, export_id)
-        self._sqlite = sqlite3.connect(f"./tmp/{secrets.token_hex(12)}.db")
+        self._export.status = 'in_process'
+        db.session.commit()
+        self._database_file_path = f"./tmp/{secrets.token_hex(12)}.db"
+        self._sqlite = sqlite3.connect(self._database_file_path)
         self._sqlite_cursor = self._sqlite.cursor()
 
     def start(self):
@@ -17,6 +21,9 @@ class SQLiteExporter:
         self._insert_forms()
         self._insert_responses()
         self._sqlite.close()
+        self._upload_db_file()
+        self._export.status = 'done'
+        db.session.commit()
 
     def _init_database(self):
         create_table_forms = ('CREATE TABLE forms(id INTEGER PRIMARY KEY, '
@@ -106,3 +113,11 @@ class SQLiteExporter:
                   .filter(Form.user_account_id == self._export.owner_id)
 
         return db.session.execute(query)
+
+    def _upload_db_file(self):
+        with open(self._database_file_path, 'rb') as database_file:
+            self._export.file = database_file
+            db.session.commit()
+
+        file = Path(self._database_file_path)
+        file.unlink()
