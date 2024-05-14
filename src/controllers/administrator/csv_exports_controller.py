@@ -1,4 +1,6 @@
 from flask import Blueprint, session, request, render_template
+from src.database import db
+from src.database.models import Form
 from src.forms import CSVExportForm, choices
 from src.queries.administrator import ExportsQuery
 from src.lib.constraints import role_constraint
@@ -24,3 +26,4 @@ def index():
 @role_constraint('administrator')
 def create():
     form_id = int(request.form.get('form_id'))
+    form = db.session.get(Form, form_id)
