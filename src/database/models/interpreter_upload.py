@@ -12,8 +12,8 @@ class InterpreterUpload(db.Model):
     id = mapped_column(sqlalchemy.BigInteger, primary_key=True)
     owner_id = mapped_column(sqlalchemy.ForeignKey('user_accounts.id'),
                              nullable=False, index=True)
-    file = mapped_column(FileField, validators=[ContentTypeValidator(
-        allowed_content_types=['application/octet-stream'])])
+    file = mapped_column(FileField(validators=[ContentTypeValidator(
+        allowed_content_types=['application/octet-stream'])]))
     owner: Mapped[UserAccount] = relationship('UserAccount',
                                               back_populates='exports')
     created_at = mapped_column(sqlalchemy.DateTime)
