@@ -1,5 +1,6 @@
 {% extends 'views/master/forms/base.jinja' %}
 {% import 'macros/breadcrumb.jinja' as breadcrumb %}
+{% import 'macros/custom_form.jinja' as custom_form %}
 
 {% block content %}
     <div class="container-fluid px-4">
@@ -9,26 +10,7 @@
 	    { url_for('master_forms_controller.index'): 'Formularios' }) }}
 	
 	<div class="row justify-content-start w-50 mb-3">
-	    {% for question in form.questions %}
-		<div class="card mb-3">
-		    <div class="card-body">
-			<h5 class="card-title">
-			    Pregunta {{ loop.index }}
-			</h5>
-			<h6 class="card-subtitle mb-2 text-body-secondary">
-			    {{ question.content }}
-			</h6>
-			{% if question.type == 'selection' %}
-			    <ul class="list-group list-group-flush">
-				{% for option in question.options %}
-				    <li class="list-group-item">{{ option.content }}</li>
-				    <li class="list-group-item">Puntaje de riesgo: {{ score_to_text(option.score) }}</li>
-				{% endfor %}
-			    </ul>
-			{% endif %}
-		    </div>
-		</div>
-	    {% endfor %}
+	    {{ custom_form.read_only_form(form) }}
 	</div>
     </div>
 {% endblock %}

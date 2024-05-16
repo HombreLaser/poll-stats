@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+from flask import Blueprint, render_template, request, redirect, url_for, \
+    session, flash, abort
 import sqlalchemy
 import sqlalchemy.orm as orm
 from src.lib.constraints import role_constraint
@@ -38,16 +39,18 @@ def new():
 def edit(form_id):
     stmt = (
         sqlalchemy.select(Form)
-                  .options(orm.joinedload(Form.questions).joinedload(Question.options))
+                  .options(orm.joinedload(Form.questions)
+                           .joinedload(Question.options))
                   .filter(Form.id == form_id)
     )
     form = db.session.execute(stmt).scalar()
 
-    if form is not None and form.status == 'review':
+    if form is not None and form.status != 'closed':
         service = CreateForm({})
         custom_form = service.create_form_from_instance(form)
 
-        return render_template(f"{templates_context}/edit.jinja", form=custom_form, form_id=form.id)
+        return render_template(f"{templates_context}/edit.jinja",
+                               form=custom_form, form_instance=form)
 
     return redirect(url_for('administrator_forms_controller.index'))
 
@@ -62,7 +65,7 @@ def update(form_id):
     if update_service.errors:
         return update_service.errors, 422
 
-    return redirect(url_for('administrator_forms_controller.index')), 303
+    return redirect(url_for('administrator_forms_controller.edit', form_id=form.id)), 303
 
 
 @administrator_forms_blueprint.post('/administrator/forms')
@@ -76,10 +79,12 @@ def create():
 
     flash('El formulario se ha creado con éxito', 'success')
 
-    return redirect(url_for('administrator_forms_controller.edit', form_id=form.id))
+    return redirect(url_for('administrator_forms_controller.edit',
+                            form_id=form.id))
 
-    
+
 @administrator_forms_blueprint.post('/administrator/forms/<int:form_id>/publish')
+@role_constraint('administrator')
 def publish(form_id: int):
     form = db.session.get(Form, form_id)
 
@@ -88,5 +93,20 @@ def publish(form_id: int):
 
     form.status = 'open'
     db.session.commit()
+
+    return redirect(url_for('administrator_forms_controller.index'))
+
+
+@administrator_forms_blueprint.post('/administrator/forms/<int:form_id>/close')
+@role_constraint('administrator')
+def close(form_id: int):
+    form = db.session.get(Form, form_id)
+
+    if form is None or form.status == 'review':
+        abort(404)
+
+    form.status = 'closed'
+    db.session.commit()
+    flash('El formulario ha sido cerrado con éxito', 'success')
 
     return redirect(url_for('administrator_forms_controller.index'))
