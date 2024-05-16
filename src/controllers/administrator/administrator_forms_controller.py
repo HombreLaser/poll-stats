@@ -65,7 +65,8 @@ def update(form_id):
     if update_service.errors:
         return update_service.errors, 422
 
-    return redirect(url_for('administrator_forms_controller.edit', form_id=form.id)), 303
+    return redirect(url_for('administrator_forms_controller.edit',
+                            form_id=form.id)), 303
 
 
 @administrator_forms_blueprint.post('/administrator/forms')
