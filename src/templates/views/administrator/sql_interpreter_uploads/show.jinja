@@ -1,6 +1,7 @@
 {% extends 'views/administrator/sqlite_exports/base.jinja' %}
 {% import 'macros/breadcrumb.jinja' as breadcrumb %}
 {% import 'macros/form.jinja' as form_renderer %}
+{% import 'macros/table.jinja' as table %}
 
 {% block content %}
     <div class="container-fluid px-4 table-wrapper">
@@ -11,12 +12,17 @@
 
 	<div class="col-2 col-sm-8 align-self-start">
 	    <form action="{{ url_for('sql_interpreter_controller.create', upload_id=upload.id) }}" method="post">
+		<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 		<textarea id="sql-editor" name="sql" rows="5" cols="109">
 
 		</textarea>
 		{{ form_renderer.submit_button('Enviar') }}
 	    </form>
 	</div>
+
+	{% if results %}
+	    {{ table.sql_results_table(results) }}
+	{% endif %}
     </div>
 {% endblock %}
 

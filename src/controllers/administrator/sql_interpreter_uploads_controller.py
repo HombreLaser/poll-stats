@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, session, \
     flash, redirect, url_for
 from src.database import db
-from src.database.models import InterpreterUpload, UserAccount
+from src.database.models import InterpreterUpload
 from src.queries.administrator import InterpreterUploadsQuery
 from src.forms import InterpreterUploadForm
 from src.lib import role_constraint
