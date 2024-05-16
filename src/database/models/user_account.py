@@ -18,8 +18,11 @@ class UserAccount(db.Model):
     invite_code = mapped_column(sqlalchemy.String(128), nullable=True)
     activated: Mapped[str] = mapped_column(sqlalchemy.Boolean, default=False)
     # Nullable porque será definido por el usuario cuando acceda a la invitación.
-    _password = mapped_column('password', sqlalchemy.String(512), nullable=True)
+    _password = mapped_column('password', sqlalchemy.String(512),
+                              nullable=True)
     forms = relationship('Form', back_populates='author', lazy='select')
+    exports = relationship('Export', back_populates='owner', lazy='select')
+    interpreter_uploads = relationship('InterpreterUpload', back_populates='owner', lazy='select')
     created_at = mapped_column(sqlalchemy.DateTime)
     updated_at = mapped_column(sqlalchemy.DateTime)
 

@@ -1,0 +1,25 @@
+{% extends 'views/administrator/sql_interpreter_uploads/base.jinja' %}
+{% import 'macros/table.jinja' as table %}
+{% import 'macros/form.jinja' as form_renderer %}
+{% import 'macros/breadcrumb.jinja' as breadcrumb %}
+
+{% block content %}
+    <div class="container-fluid px-4 table-wrapper">
+	<h1 class="mt-4">
+	    Bases de datos
+	</h1>
+	{{ breadcrumb.render('Exportaciones', {}) }}
+
+	<div class="col-6 col-sm-3 align-self-start">
+	    <form action="{{ url_for('sql_interpreter_uploads_controller.create') }}" method="POST" enctype="multipart/form-data">
+		{{ form.csrf_token }}
+		{{ form_renderer.render_field(form.database, render_label=False) }}
+		{{ form_renderer.submit_button('Subir') }}
+	    </form>
+	</div>
+
+	{{ table.render_table('Bases de datos', uploads, 'sql_interpreter_uploads_controller.index',
+	    'views/administrator/sql_interpreter_uploads/uploads_table.jinja',
+	    {'name': 'Nombre'}, 'Creado', 'Nombre', 'Detalles') }}
+    </div>
+{% endblock %}
