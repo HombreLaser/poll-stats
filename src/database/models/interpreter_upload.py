@@ -12,9 +12,11 @@ class InterpreterUpload(db.Model):
     id = mapped_column(sqlalchemy.BigInteger, primary_key=True)
     owner_id = mapped_column(sqlalchemy.ForeignKey('user_accounts.id'),
                              nullable=False, index=True)
+    name: Mapped[str] = mapped_column(sqlalchemy.String(512), nullable=False)
     file = mapped_column(FileField(validators=[ContentTypeValidator(
         allowed_content_types=['application/octet-stream'])]))
-    owner: Mapped[UserAccount] = relationship('UserAccount',
-                                              back_populates='exports')
+    owner: Mapped[UserAccount] = relationship(
+        'UserAccount', back_populates='interpreter_uploads'
+    )
     created_at = mapped_column(sqlalchemy.DateTime)
     updated_at = mapped_column(sqlalchemy.DateTime)

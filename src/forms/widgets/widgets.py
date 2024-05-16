@@ -14,6 +14,14 @@ class AttrSetter:
         return kwargs | render_params | params_except_class
 
 
+class FileInputWidget(AttrSetter, wtforms_widgets.FileInput):
+    def __call__(self, field, **kwargs):
+        return super().__call__(field, **self._attrs(**kwargs))
+
+    def _attrs(self, **kwargs):
+        return super()._attrs({'class': 'form-control'}, **kwargs)
+
+
 class SelectWidget(AttrSetter, wtforms_widgets.Select):
     def __call__(self, field, **kwargs):
         return super().__call__(field, **self._attrs(**kwargs))

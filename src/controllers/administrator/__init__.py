@@ -6,3 +6,5 @@ import src.controllers.administrator.administrator_responses_controller
 import src.controllers.administrator.csv_exports_controller
 import src.controllers.administrator.sqlite_exports_controller
 import src.controllers.administrator.export_files_controller
+import src.controllers.administrator.sql_interpreter_uploads_controller
+import src.controllers.administrator.sql_interpreter_controller
