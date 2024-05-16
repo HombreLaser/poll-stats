@@ -9,18 +9,26 @@
         {{ breadcrumb.render('Editar formulario', { url_for('administrator_forms_controller.index'): 'Formularios' }) }}
 
         <div id="form-container" class="row justify-content-start w-50 mb-3">
-            <form id="form-registration" action="{{ url_for('administrator_forms_controller.update', form_id=form_id) }}"
-                                            method="POST"
-                                            novalidate>
-                
-                <div class="mb-3">
-                    <button class="btn btn-primary" id="publish-button" type="button">Publicar</button>
+	    {% if form_instance.status == 'review' %}
+		<form id="form-registration" action="{{ url_for('administrator_forms_controller.update', form_id=form_instance.id) }}"
+                      method="POST"
+                      novalidate>
+                    
+                    <div class="mb-3">
+			<button class="btn btn-primary" id="publish-button" type="button">Publicar</button>
+                    </div>
+
+                    {{ custom_form.render(form) }}
+
+                    <input type="submit" id="submit-button" class="btn btn-success ml-6" value="Enviar"/>
+		</form>
+	    {% else %}
+		<div class="mb-3">
+		    <button class="btn btn-danger" id="close-button" type="button">Cerrar</button>
                 </div>
-
-                {{ custom_form.render(form) }}
-
-                <input type="submit" id="submit-button" class="btn btn-success ml-6" value="Enviar"/>
-            </form>
+		
+		{{ custom_form.read_only_form(form_instance) }}
+	    {% endif %}
         </div>
     </div>
 

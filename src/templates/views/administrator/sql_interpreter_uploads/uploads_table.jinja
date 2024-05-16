@@ -1,0 +1,15 @@
+{% for upload in page %}
+    <tr>
+	<td>
+	    {{ upload.created_at }}
+	</td>
+	<td>
+	    {{ upload.name }}
+	</td>
+	<td>
+	    <a class="btn btn-sm btn-primary" href="{{ url_for('sql_interpreter_uploads_controller.show', upload_id=upload.id) }}">
+		Ver
+	    </a>
+	</td>
+    </tr>
+{% endfor %}

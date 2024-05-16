@@ -1,7 +1,10 @@
 from flask import Flask, redirect, url_for
 from flask_wtf.csrf import CSRFProtect
+from libcloud.storage.drivers.local import LocalStorageDriver
+from sqlalchemy_file.storage import StorageManager
 import sqlalchemy
 import tomllib
+import os
 import re
 import src.database as database
 import src.database.models as models
@@ -16,6 +19,7 @@ def create_app():
     app.config.from_prefixed_env()
     load_config(app)
     database.init_db(app)
+    initialize_storage()
     initialize_blueprints(app)
     csrf.init_app(app)
 
@@ -23,6 +27,12 @@ def create_app():
         from src import template_globals
 
     return app
+
+
+def initialize_storage():
+    os.makedirs('./storage/exports', exist_ok=True)
+    container = LocalStorageDriver('./storage').get_container("exports")
+    StorageManager.add_storage('default', container)
 
 
 def initialize_blueprints(app):
@@ -65,6 +75,7 @@ def connection_string(config, app):
 app = create_app()
 
 
+# Direcciones root.
 @app.get('/')
 def index():
     return redirect(url_for('sessions_controller.new'))

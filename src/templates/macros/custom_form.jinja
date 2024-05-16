@@ -13,7 +13,29 @@
         <i class="bi bi-plus" style="font-size: 1rem"></i>
         Agregar pregunta
     </button>
+{% endmacro %}
 
+{% macro read_only_form(form) %}
+    {% for question in form.questions %}
+	<div class="card mb-3">
+	    <div class="card-body">
+		<h5 class="card-title">
+		    Pregunta {{ loop.index }}
+		</h5>
+		<h6 class="card-subtitle mb-2 text-body-secondary">
+		    {{ question.content }}
+		</h6>
+		{% if question.type == 'selection' %}
+		    <ul class="list-group list-group-flush">
+			{% for option in question.options %}
+			    <li class="list-group-item">{{ option.content }}</li>
+			    <li class="list-group-item">Puntaje de riesgo: {{ score_to_text(option.score) }}</li>
+			{% endfor %}
+		    </ul>
+		{% endif %}
+	    </div>
+	</div>
+    {% endfor %}
 {% endmacro %}
 
 {% macro render_open_question(form) %}

@@ -1,0 +1,27 @@
+{% extends 'views/administrator/csv_exports/base.jinja' %}
+{% import 'macros/table.jinja' as table %}
+{% import 'macros/form.jinja' as form_renderer  %}
+{% import 'macros/breadcrumb.jinja' as breadcrumb %}
+
+{% block content %}
+    <div class="container-fluid px-4 table-wrapper">
+	<h1 class="mt-4">
+	    Exportaciones en CSV
+	</h1>
+	{{ breadcrumb.render('Exportaciones', {}) }}
+
+	<div class="row">
+	    <div class="col-6 col-sm-3 align-self-start">
+		<form action="{{ url_for('csv_exports_controller.create') }}" method="POST">
+		    {{ form.csrf_token }}
+		    {{ form_renderer.render_field(form.form_id, render_label=False) }}
+		    {{ form_renderer.submit_button('Exportar') }}
+		</form>
+	    </div>
+	</div>
+
+	{{ table.render_table('Exportaciones', exports, 'csv_exports_controller.index',
+	    'views/administrator/forms/forms_table.jinja',
+	    {'created_at': 'Fecha de creación'}, 'Creado', 'Estado', 'Archivo') }}
+    </div>
+{% endblock %}
