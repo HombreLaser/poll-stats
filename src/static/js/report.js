@@ -4,6 +4,7 @@ Chart.defaults.global.defaultFontColor = '#292b2c';
 export function main(endpoint) {
     get_report(endpoint).then((report) => {
 	draw(report);
+	document.getElementById("report-card-content").innerHTML = report.conclusion;
     });
 }
 
