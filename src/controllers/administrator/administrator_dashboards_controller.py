@@ -6,7 +6,9 @@ from src.database.models import Response, Form
 from src.lib.constraints import role_constraint
 
 
-administrator_dashboards_blueprint = Blueprint('administrator_dashboards_controller', __name__)
+administrator_dashboards_blueprint = Blueprint(
+    'administrator_dashboards_controller', __name__
+)
 
 
 @administrator_dashboards_blueprint.get('/administrator')

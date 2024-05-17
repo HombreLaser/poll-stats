@@ -52,13 +52,3 @@ def index(form_id):
 		response_analysis_dict['qty_of_responses_of_each_risk'] = counts
 		print(response_analysis_dict)
 	return response_analysis_dict
-		
-		
-
-			
-			
-        
-			
-				
-    
-

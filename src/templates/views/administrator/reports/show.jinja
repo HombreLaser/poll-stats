@@ -1,0 +1,18 @@
+{% extends 'views/administrator/reports/base.jinja' %}
+{% import 'macros/breadcrumb.jinja' as breadcrumb %}
+
+
+{% block content %}
+    <div class="container-fluid px-4 table-wrapper">
+	<h1 class="mt-4">
+	    Reporte de formulario
+	</h1>
+	{{ breadcrumb.render('Reporte de formulario',
+	    {url_for('administrator_forms_controller.edit', form_id=form.id): 'Editar formulario',
+	        'administrator_forms_controller.index': 'Formularios'}) }}
+
+	<div class="row justify-content-start w-50 mb-3">
+	    
+	</div>
+    </div>
+{% endblock %}

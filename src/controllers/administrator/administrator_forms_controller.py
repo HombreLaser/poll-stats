@@ -45,7 +45,7 @@ def edit(form_id):
     )
     form = db.session.execute(stmt).scalar()
 
-    if form is not None and form.status != 'closed':
+    if form is not None:
         service = CreateForm({})
         custom_form = service.create_form_from_instance(form)
 

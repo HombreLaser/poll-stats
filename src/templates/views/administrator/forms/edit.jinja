@@ -22,11 +22,17 @@
 
                     <input type="submit" id="submit-button" class="btn btn-success ml-6" value="Enviar"/>
 		</form>
-	    {% else %}
+	    {% elif form_instance.status == 'open' %}
 		<div class="mb-3">
 		    <button class="btn btn-danger" id="close-button" type="button">Cerrar</button>
                 </div>
 		
+		{{ custom_form.read_only_form(form_instance) }}
+	    {% else %}
+		<div class="mb-3">
+		    <a href="{{ url_for('reports_controller.show', form_id=form_instance.id) }}" class="btn btn-primary" id="reports-button" type="button">Reporte</a>
+		</div>
+
 		{{ custom_form.read_only_form(form_instance) }}
 	    {% endif %}
         </div>
