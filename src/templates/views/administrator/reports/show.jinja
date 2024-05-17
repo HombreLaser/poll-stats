@@ -11,8 +11,16 @@
 	    {url_for('administrator_forms_controller.index'): 'Formularios',
 		url_for('administrator_forms_controller.edit', form_id=form.id): 'Editar formulario'}) }}
 
-	<div class="row justify-content-start w-50 mb-3">
-	    
+	<div class="row">
+	    <div class="col-xl-6">
+		<div class="card mb-4">
+                    <div class="card-header">
+			<i class="fas fa-chart-area me-1"></i>
+			Respuestas por nivel de riesgo
+                    </div>
+                    <div class="card-body"><canvas id="report-pie-chart" width="100%" height="40"></canvas></div>
+		</div>
+            </div>
 	</div>
 	<div class="card mb-4">
 	    <div class="card-header">
@@ -65,4 +73,13 @@
 	    </div>
 	</div>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='vendor/Chart.min.js') }}"></script>
+    <script type="module">
+     import { main } from "{{ url_for('static', filename='js/report.js') }}";
+
+     main("{{ url_for('api_reports_controller.index', form_id=form.id) }}");
+    </script>
 {% endblock %}
