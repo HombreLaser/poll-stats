@@ -3,7 +3,7 @@ def response_score_count(responses):
 
     for response in responses[1:]:
         for response_data in response.data:
-            if response_data['type'] == 'open':
+            if response_data['type'].startswith('open'):
                 continue
 
             counts[response_data['question']] = counts_dictionary(
@@ -18,7 +18,7 @@ def build_dictionary(response_data: list):
     counts = {}
 
     for response in response_data:
-        if response['type'] == 'open':
+        if response['type'].startswith('open'):
             continue
 
         counts[response['question']] = counts_dictionary(response['response'])
