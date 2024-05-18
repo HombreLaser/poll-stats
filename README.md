@@ -85,8 +85,14 @@ Ya que hayas ejecutado las migraciones, tu base de datos está lista. Para inici
 
 ## Crea un usuario maestro
 Cuando creas un usuario maestro puedes invitar a más miembros a que formen parte de tu red, para esto se necesita ejecutar el siguiente comando
+:
+```bash
+flask --app src shell
+```
 
-```toml
+Luego, en la consola de python:
+
+```python
     u = models.UserAccount(email='maestro@example.org', first_name='Nombre', last_name='Apellido')
     u.password = 'contraseña'
     u.role = 'master'
