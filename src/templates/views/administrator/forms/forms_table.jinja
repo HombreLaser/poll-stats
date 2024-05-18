@@ -12,11 +12,9 @@
             {{ status(form) }}
         </td>
         <td>
-            {% if form.status == 'review' %}
-                <a href="{{ url_for('administrator_forms_controller.edit', form_id=form.id) }}" class="btn btn-sm btn-primary">
-                    Editar
-                </a>
-            {% endif %}
+            <a href="{{ url_for('administrator_forms_controller.edit', form_id=form.id) }}" class="btn btn-sm btn-primary">
+                Editar
+            </a>
         </td>
         <td>
             {% if form.status == 'open' %}

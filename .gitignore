@@ -5,3 +5,6 @@ __pycache__/
 *.pyc
 config.toml
 storage/
+*#
+tmp/
+javascripts/node_modules

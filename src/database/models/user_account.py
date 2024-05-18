@@ -22,6 +22,7 @@ class UserAccount(db.Model):
                               nullable=True)
     forms = relationship('Form', back_populates='author', lazy='select')
     exports = relationship('Export', back_populates='owner', lazy='select')
+    interpreter_uploads = relationship('InterpreterUpload', back_populates='owner', lazy='select')
     created_at = mapped_column(sqlalchemy.DateTime)
     updated_at = mapped_column(sqlalchemy.DateTime)
 

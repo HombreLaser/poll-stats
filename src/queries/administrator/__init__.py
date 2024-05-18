@@ -1,1 +1,2 @@
 from src.queries.administrator.exports_query import ExportsQuery
+from src.queries.administrator.interpreter_uploads_query import InterpreterUploadsQuery
